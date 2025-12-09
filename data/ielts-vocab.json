@@ -1,0 +1,28 @@
+{
+  "words": [
+    {
+      "id": "w-101",
+      "word": "commute",
+      "phonetic": "/kəˈmjuːt/",
+      "audioUrl": null,
+      "partOfSpeech": "verb",
+      "definitions": [
+        {
+          "chinese": "通勤;上下班往返",
+          "english": "To travel regularly between home and work",
+          "example": "I commute to the office by train every day."
+        }
+      ],
+      "examples": [
+        "She commutes 50 miles each day.",
+        "Many people commute by car in this city."
+      ],
+      "source": "ielts",
+      "difficultyLevel": 2,
+      "tags": ["daily-life", "transportation"]
+    }
+  ],
+  "source": "open-ielts-2025",
+  "version": "1.0.0",
+  "lastUpdated": "2025-12-08"
+}

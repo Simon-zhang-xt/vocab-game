@@ -1,0 +1,192 @@
+/* Animation Definitions - Pure CSS per research.md */
+
+/* Correct Answer Feedback */
+@keyframes correct-glow {
+    0%, 100% {
+        box-shadow: 0 0 5px var(--success-color);
+        transform: scale(1);
+    }
+    50% {
+        box-shadow: 0 0 20px var(--success-color);
+        transform: scale(1.05);
+    }
+}
+
+.correct {
+    animation: correct-glow 0.5s ease-out;
+    background-color: var(--success-color) !important;
+    color: white !important;
+    border-color: var(--success-color) !important;
+}
+
+/* Incorrect Answer Feedback */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    50% { transform: translateX(10px); }
+    75% { transform: translateX(-5px); }
+}
+
+.incorrect {
+    animation: shake 0.3s ease-out;
+    background-color: var(--error-color) !important;
+    color: white !important;
+    border-color: var(--error-color) !important;
+}
+
+/* Fade In */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Fade Out */
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+}
+
+.fade-out {
+    animation: fadeOut 0.3s ease-out;
+}
+
+/* Slide In From Right */
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.slide-in-right {
+    animation: slideInRight 0.3s ease-out;
+}
+
+/* Slide Out To Left */
+@keyframes slideOutLeft {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+}
+
+.slide-out-left {
+    animation: slideOutLeft 0.3s ease-out;
+}
+
+/* Bounce */
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-20px);
+    }
+    60% {
+        transform: translateY(-10px);
+    }
+}
+
+.bounce {
+    animation: bounce 0.6s;
+}
+
+/* Pulse */
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+.pulse {
+    animation: pulse 0.5s;
+}
+
+/* Progress Bar Fill */
+@keyframes progress-fill {
+    from {
+        width: 0%;
+    }
+}
+
+.progress-bar {
+    animation: progress-fill 0.3s ease-out;
+}
+
+/* Card Flip (3D) */
+@keyframes flip {
+    from {
+        transform: rotateY(0deg);
+    }
+    to {
+        transform: rotateY(180deg);
+    }
+}
+
+.flip {
+    animation: flip 0.6s;
+    transform-style: preserve-3d;
+}
+
+/* Badge Unlock Animation */
+@keyframes badge-unlock {
+    0% {
+        transform: scale(0) rotate(-180deg);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2) rotate(20deg);
+    }
+    100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+}
+
+.badge-unlock {
+    animation: badge-unlock 0.8s ease-out;
+}
+
+/* Utility Classes */
+.no-animation {
+    animation: none !important;
+}
+
+.animation-delay-1 {
+    animation-delay: 0.1s;
+}
+
+.animation-delay-2 {
+    animation-delay: 0.2s;
+}
+
+.animation-delay-3 {
+    animation-delay: 0.3s;
+}

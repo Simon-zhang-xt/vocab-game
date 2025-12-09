@@ -1,0 +1,212 @@
+{
+  "series": [
+    {
+      "id": "cs-001",
+      "title": "TOEFL核心词汇",
+      "description": "托福考试必备核心词汇,涵盖学术写作和阅读高频词",
+      "theme": "academic",
+      "difficulty": "toefl",
+      "courseIds": ["c-001"],
+      "totalEstimatedMinutes": 8,
+      "thumbnailUrl": "assets/images/toefl-academic.jpg",
+      "createdAt": "2025-12-08T10:00:00Z"
+    }
+  ],
+  "courses": [
+    {
+      "id": "c-001",
+      "seriesId": "cs-001",
+      "title": "学术动词 - 第一部分",
+      "description": "学习常用于学术写作的重要动词",
+      "wordIds": ["w-001", "w-002", "w-003", "w-004", "w-005", "w-006", "w-007", "w-008", "w-009", "w-010", "w-011", "w-012"],
+      "questions": [
+        {
+          "id": "q-001",
+          "type": "multiple-choice",
+          "wordId": "w-001",
+          "prompt": "What does 'analyze' mean? 'analyze'是什么意思?",
+          "options": [
+            "分析;解析",
+            "创造;制作",
+            "记忆;背诵",
+            "忽略;忽视"
+          ],
+          "correctAnswer": 0,
+          "feedback": {
+            "correct": "正确! 'Analyze' 的意思是分析、解析。",
+            "incorrect": "'Analyze' 的意思是分析、解析，即详细检查以便更好地理解。"
+          },
+          "difficulty": 2
+        },
+        {
+          "id": "q-002",
+          "type": "multiple-choice",
+          "wordId": "w-002",
+          "prompt": "Which word means '全面的;综合的'?",
+          "options": [
+            "Simple",
+            "Comprehensive",
+            "Limited",
+            "Brief"
+          ],
+          "correctAnswer": 1,
+          "feedback": {
+            "correct": "完全正确! 'Comprehensive' 表示全面的、综合的。",
+            "incorrect": "正确答案是 'Comprehensive',意思是包含一切的、完整的。"
+          },
+          "difficulty": 2
+        },
+        {
+          "id": "q-003",
+          "type": "fill-blank",
+          "wordId": "w-003",
+          "prompt": "It's important to _______ fact from opinion. (区分事实和观点很重要)",
+          "options": [],
+          "correctAnswer": "distinguish",
+          "feedback": {
+            "correct": "太棒了! 'Distinguish' 是正确答案,意思是区分、辨别。",
+            "incorrect": "正确答案是 'distinguish',意思是识别事物之间的差异。"
+          },
+          "difficulty": 3
+        },
+        {
+          "id": "q-004",
+          "type": "matching",
+          "wordId": "w-004",
+          "prompt": "Match the word 'emphasize' to its Chinese meaning:",
+          "options": ["强调;着重", "减少;降低", "增加;提高", "改变;修改"],
+          "correctAnswer": 0,
+          "feedback": {
+            "correct": "配对正确! 'Emphasize' 的意思是强调、着重。",
+            "incorrect": "'Emphasize' 的意思是强调、着重,即给予特别的重要性或关注。"
+          },
+          "difficulty": 1
+        },
+        {
+          "id": "q-005",
+          "type": "multiple-choice",
+          "wordId": "w-005",
+          "prompt": "A _______ is an idea that you test through study.",
+          "options": [
+            "Hypothesis",
+            "Conclusion",
+            "Definition",
+            "Example"
+          ],
+          "correctAnswer": 0,
+          "feedback": {
+            "correct": "正确! 'Hypothesis' (假说)是通过研究来检验的想法。",
+            "incorrect": "'Hypothesis' (假说)是通过研究来检验的想法或解释。"
+          },
+          "difficulty": 3
+        },
+        {
+          "id": "q-006",
+          "type": "fill-blank",
+          "wordId": "w-006",
+          "prompt": "We need to _______ these changes immediately. (我们需要立即实施这些改变)",
+          "options": [],
+          "correctAnswer": "implement",
+          "feedback": {
+            "correct": "完美! 'Implement' 的意思是实施、执行。",
+            "incorrect": "正确答案是 'implement',意思是将计划或系统付诸实施。"
+          },
+          "difficulty": 2
+        },
+        {
+          "id": "q-007",
+          "type": "matching",
+          "wordId": "w-007",
+          "prompt": "Match 'significant' to its meaning:",
+          "options": ["重要的;显著的", "微小的;轻微的", "普通的;平常的", "困难的;艰难的"],
+          "correctAnswer": 0,
+          "feedback": {
+            "correct": "很好! 'Significant' 表示重要的、显著的。",
+            "incorrect": "'Significant' 的意思是重要的或明显的。"
+          },
+          "difficulty": 1
+        },
+        {
+          "id": "q-008",
+          "type": "multiple-choice",
+          "wordId": "w-008",
+          "prompt": "What are the _______ of this decision? (这个决定的后果是什么?)",
+          "options": [
+            "Consequences",
+            "Questions",
+            "Examples",
+            "Methods"
+          ],
+          "correctAnswer": 0,
+          "feedback": {
+            "correct": "正确! 'Consequences' 是后果的意思。",
+            "incorrect": "'Consequences' 是某个行动或情况的结果或后果。"
+          },
+          "difficulty": 2
+        },
+        {
+          "id": "q-009",
+          "type": "fill-blank",
+          "wordId": "w-009",
+          "prompt": "The company was _______ in 1990. (公司成立于1990年)",
+          "options": [],
+          "correctAnswer": "established",
+          "feedback": {
+            "correct": "太好了! 'Established' 的意思是建立、确立。",
+            "incorrect": "正确答案是 'established',意思是创建或建立某物。"
+          },
+          "difficulty": 2
+        },
+        {
+          "id": "q-010",
+          "type": "multiple-choice",
+          "wordId": "w-010",
+          "prompt": "How can I _______ this information? (我如何获得这个信息?)",
+          "options": [
+            "Obtain",
+            "Forget",
+            "Ignore",
+            "Delete"
+          ],
+          "correctAnswer": 0,
+          "feedback": {
+            "correct": "正确! 'Obtain' 的意思是获得、得到。",
+            "incorrect": "'Obtain' 的意思是得到或获取某物。"
+          },
+          "difficulty": 1
+        },
+        {
+          "id": "q-011",
+          "type": "matching",
+          "wordId": "w-011",
+          "prompt": "Match 'demonstrate' to its Chinese meaning:",
+          "options": ["展示;证明", "隐藏;掩盖", "猜测;推测", "拒绝;否认"],
+          "correctAnswer": 0,
+          "feedback": {
+            "correct": "完美匹配! 'Demonstrate' 表示展示、证明。",
+            "incorrect": "'Demonstrate' 的意思是清楚地展示或证明某事。"
+          },
+          "difficulty": 2
+        },
+        {
+          "id": "q-012",
+          "type": "fill-blank",
+          "wordId": "w-012",
+          "prompt": "Education is a _______ right. (教育是一项基本权利)",
+          "options": [],
+          "correctAnswer": "fundamental",
+          "feedback": {
+            "correct": "优秀! 'Fundamental' 的意思是基本的、根本的。",
+            "incorrect": "正确答案是 'fundamental',意思是构成基础或核心的、必不可少的。"
+          },
+          "difficulty": 2
+        }
+      ],
+      "estimatedMinutes": 8,
+      "sequenceOrder": 1,
+      "createdAt": "2025-12-08T10:00:00Z"
+    }
+  ],
+  "version": "1.0.0",
+  "lastUpdated": "2025-12-08"
+}

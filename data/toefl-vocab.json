@@ -1,0 +1,259 @@
+{
+  "words": [
+    {
+      "id": "w-001",
+      "word": "analyze",
+      "phonetic": "/ˈæn.ə.laɪz/",
+      "audioUrl": null,
+      "partOfSpeech": "verb",
+      "definitions": [
+        {
+          "chinese": "分析;解析",
+          "english": "To examine something in detail to understand it better",
+          "example": "Scientists analyze data to find patterns."
+        }
+      ],
+      "examples": [
+        "We need to analyze the survey results carefully.",
+        "The detective analyzed the evidence at the crime scene."
+      ],
+      "source": "toefl",
+      "difficultyLevel": 3,
+      "tags": ["academic", "research"]
+    },
+    {
+      "id": "w-002",
+      "word": "comprehensive",
+      "phonetic": "/ˌkɑːm.prɪˈhen.sɪv/",
+      "audioUrl": null,
+      "partOfSpeech": "adjective",
+      "definitions": [
+        {
+          "chinese": "全面的;综合的",
+          "english": "Including everything; complete",
+          "example": "The report provides a comprehensive overview."
+        }
+      ],
+      "examples": [
+        "We need a comprehensive plan to solve this problem.",
+        "The book offers comprehensive coverage of the topic."
+      ],
+      "source": "toefl",
+      "difficultyLevel": 4,
+      "tags": ["academic"]
+    },
+    {
+      "id": "w-003",
+      "word": "distinguish",
+      "phonetic": "/dɪˈstɪŋ.ɡwɪʃ/",
+      "audioUrl": null,
+      "partOfSpeech": "verb",
+      "definitions": [
+        {
+          "chinese": "区分;辨别",
+          "english": "To recognize the difference between things",
+          "example": "It's important to distinguish fact from opinion."
+        }
+      ],
+      "examples": [
+        "Can you distinguish between these two colors?",
+        "She distinguished herself as an excellent student."
+      ],
+      "source": "toefl",
+      "difficultyLevel": 3,
+      "tags": ["academic", "critical-thinking"]
+    },
+    {
+      "id": "w-004",
+      "word": "emphasize",
+      "phonetic": "/ˈem.fə.saɪz/",
+      "audioUrl": null,
+      "partOfSpeech": "verb",
+      "definitions": [
+        {
+          "chinese": "强调;着重",
+          "english": "To give special importance or attention to something",
+          "example": "The teacher emphasized the importance of practice."
+        }
+      ],
+      "examples": [
+        "I want to emphasize that this is very important.",
+        "The report emphasizes the need for reform."
+      ],
+      "source": "toefl",
+      "difficultyLevel": 2,
+      "tags": ["academic", "communication"]
+    },
+    {
+      "id": "w-005",
+      "word": "hypothesis",
+      "phonetic": "/haɪˈpɑː.θə.sɪs/",
+      "audioUrl": null,
+      "partOfSpeech": "noun",
+      "definitions": [
+        {
+          "chinese": "假说;假设",
+          "english": "An idea or explanation that you test through study",
+          "example": "The scientist proposed a new hypothesis."
+        }
+      ],
+      "examples": [
+        "We need to test this hypothesis through experiments.",
+        "The hypothesis was confirmed by the data."
+      ],
+      "source": "toefl",
+      "difficultyLevel": 4,
+      "tags": ["academic", "science"]
+    },
+    {
+      "id": "w-006",
+      "word": "implement",
+      "phonetic": "/ˈɪm.plə.ment/",
+      "audioUrl": null,
+      "partOfSpeech": "verb",
+      "definitions": [
+        {
+          "chinese": "实施;执行",
+          "english": "To put a plan or system into operation",
+          "example": "The company will implement the new policy next month."
+        }
+      ],
+      "examples": [
+        "We need to implement these changes immediately.",
+        "The school implemented a new curriculum."
+      ],
+      "source": "toefl",
+      "difficultyLevel": 3,
+      "tags": ["business", "action"]
+    },
+    {
+      "id": "w-007",
+      "word": "significant",
+      "phonetic": "/sɪɡˈnɪf.ɪ.kənt/",
+      "audioUrl": null,
+      "partOfSpeech": "adjective",
+      "definitions": [
+        {
+          "chinese": "重要的;显著的",
+          "english": "Important or noticeable",
+          "example": "There was a significant increase in sales."
+        }
+      ],
+      "examples": [
+        "This is a significant achievement for our team.",
+        "The results show significant improvement."
+      ],
+      "source": "toefl",
+      "difficultyLevel": 2,
+      "tags": ["academic", "importance"]
+    },
+    {
+      "id": "w-008",
+      "word": "consequence",
+      "phonetic": "/ˈkɑːn.sə.kwens/",
+      "audioUrl": null,
+      "partOfSpeech": "noun",
+      "definitions": [
+        {
+          "chinese": "结果;后果",
+          "english": "A result of a particular action or situation",
+          "example": "Every action has consequences."
+        }
+      ],
+      "examples": [
+        "What are the consequences of this decision?",
+        "He didn't think about the consequences of his actions."
+      ],
+      "source": "toefl",
+      "difficultyLevel": 3,
+      "tags": ["academic", "cause-effect"]
+    },
+    {
+      "id": "w-009",
+      "word": "establish",
+      "phonetic": "/ɪˈstæb.lɪʃ/",
+      "audioUrl": null,
+      "partOfSpeech": "verb",
+      "definitions": [
+        {
+          "chinese": "建立;确立",
+          "english": "To create or set up something",
+          "example": "The company was established in 1990."
+        }
+      ],
+      "examples": [
+        "We need to establish clear guidelines.",
+        "They established a new research center."
+      ],
+      "source": "toefl",
+      "difficultyLevel": 2,
+      "tags": ["business", "foundation"]
+    },
+    {
+      "id": "w-010",
+      "word": "obtain",
+      "phonetic": "/əbˈteɪn/",
+      "audioUrl": null,
+      "partOfSpeech": "verb",
+      "definitions": [
+        {
+          "chinese": "获得;得到",
+          "english": "To get or acquire something",
+          "example": "She obtained her degree last year."
+        }
+      ],
+      "examples": [
+        "How can I obtain this information?",
+        "We obtained permission from the authorities."
+      ],
+      "source": "toefl",
+      "difficultyLevel": 2,
+      "tags": ["academic", "acquisition"]
+    },
+    {
+      "id": "w-011",
+      "word": "demonstrate",
+      "phonetic": "/ˈdem.ən.streɪt/",
+      "audioUrl": null,
+      "partOfSpeech": "verb",
+      "definitions": [
+        {
+          "chinese": "展示;证明",
+          "english": "To show clearly or prove",
+          "example": "The experiment demonstrates the theory."
+        }
+      ],
+      "examples": [
+        "Let me demonstrate how this works.",
+        "The data demonstrates a clear trend."
+      ],
+      "source": "toefl",
+      "difficultyLevel": 3,
+      "tags": ["academic", "proof"]
+    },
+    {
+      "id": "w-012",
+      "word": "fundamental",
+      "phonetic": "/ˌfʌn.dəˈmen.təl/",
+      "audioUrl": null,
+      "partOfSpeech": "adjective",
+      "definitions": [
+        {
+          "chinese": "基本的;根本的",
+          "english": "Forming the base or core; essential",
+          "example": "Education is a fundamental right."
+        }
+      ],
+      "examples": [
+        "This is a fundamental principle of science.",
+        "We need to understand the fundamental concepts first."
+      ],
+      "source": "toefl",
+      "difficultyLevel": 3,
+      "tags": ["academic", "foundation"]
+    }
+  ],
+  "source": "open-toefl-2025",
+  "version": "1.0.0",
+  "lastUpdated": "2025-12-08"
+}

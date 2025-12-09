@@ -1,0 +1,30 @@
+{
+  "name": "vocab-game-web",
+  "version": "1.0.0",
+  "description": "Interactive vocabulary learning game for TOEFL and IELTS preparation",
+  "type": "module",
+  "scripts": {
+    "start": "npx http-server -p 8080 -c-1",
+    "dev": "npx live-server --port=8080",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:e2e": "playwright test",
+    "test:e2e:headed": "playwright test --headed",
+    "test:e2e:debug": "playwright test --debug"
+  },
+  "keywords": [
+    "vocabulary",
+    "learning",
+    "toefl",
+    "ielts",
+    "education"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "^1.40.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0"
+  }
+}
