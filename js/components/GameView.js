@@ -197,7 +197,7 @@ class GameView {
     /**
      * Handle answer submission
      */
-    handleSubmit(question) {
+    async handleSubmit(question) {
         if (this.feedbackShown) {
             // Move to next question
             this.nextQuestion();
@@ -209,17 +209,28 @@ class GameView {
             return;
         }
 
+        const submitBtn = this.container.querySelector('#submit-btn');
+        const originalText = submitBtn.textContent;
+
         try {
-            const result = this.engine.submitAnswer(this.currentAnswer);
+            // Show loading state
+            submitBtn.disabled = true;
+            submitBtn.textContent = '提交中... Submitting...';
+
+            // Submit answer (now async for cloud sync)
+            const result = await this.engine.submitAnswer(this.currentAnswer);
+
             this.showFeedback(result, question);
             this.feedbackShown = true;
 
             // Update button text
-            const submitBtn = this.container.querySelector('#submit-btn');
             submitBtn.textContent = '下一题 Next';
+            submitBtn.disabled = false;
         } catch (error) {
             console.error('Submit error:', error);
             alert('提交失败，请重试 / Submission failed, please try again');
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
         }
     }
 
@@ -279,10 +290,28 @@ class GameView {
     /**
      * Complete course
      */
-    complete() {
-        const record = this.engine.completeCourse();
-        if (this.onComplete) {
-            this.onComplete(record);
+    async complete() {
+        try {
+            // Show loading indicator
+            this.container.innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>保存进度中... Saving progress...</p>
+                </div>
+            `;
+
+            // Complete course (now async for cloud sync)
+            const record = await this.engine.completeCourse();
+
+            if (this.onComplete) {
+                this.onComplete(record);
+            }
+        } catch (error) {
+            console.error('Failed to complete course:', error);
+            // Still call onComplete even if sync failed
+            if (this.onComplete) {
+                this.onComplete(this.engine.record);
+            }
         }
     }
 

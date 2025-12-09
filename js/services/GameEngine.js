@@ -9,6 +9,8 @@ import Course from '../models/Course.js';
 import InteractiveQuestion from '../models/InteractiveQuestion.js';
 import LearningRecord from '../models/LearningRecord.js';
 import audioManager from '../utils/audio.js';
+import authService from './AuthService.js';
+import userDataService from './UserDataService.js';
 
 class GameEngine {
     constructor(courseId) {
@@ -60,7 +62,7 @@ class GameEngine {
      * @param {string|number} userAnswer
      * @returns {Object} Result object
      */
-    submitAnswer(userAnswer) {
+    async submitAnswer(userAnswer) {
         const question = this.getCurrentQuestion();
         if (!question) {
             throw new Error('No current question');
@@ -86,6 +88,31 @@ class GameEngine {
 
         // Add to learning record
         this.record.addAnswer(answerRecord);
+
+        // Sync to cloud if user is authenticated
+        const currentUser = authService.getCurrentUser();
+        if (currentUser) {
+            try {
+                // Update word mastery using Ebbinghaus curve
+                await userDataService.updateWordMastery(question.wordId, isCorrect);
+
+                // Save mistake record if incorrect
+                if (!isCorrect) {
+                    await userDataService.saveMistake({
+                        courseId: this.courseId,
+                        wordId: question.wordId,
+                        questionType: question.type,
+                        userAnswer: userAnswer,
+                        correctAnswer: question.correctAnswer
+                    });
+                }
+
+                console.log(`Cloud sync: word ${question.wordId}, correct: ${isCorrect}`);
+            } catch (error) {
+                console.error('Failed to sync answer to cloud:', error);
+                // Don't throw - allow game to continue even if sync fails
+            }
+        }
 
         // Play audio feedback
         if (isCorrect) {
@@ -172,16 +199,46 @@ class GameEngine {
 
     /**
      * Complete course and save record
-     * @returns {LearningRecord}
+     * @returns {Promise<LearningRecord>}
      */
-    completeCourse() {
+    async completeCourse() {
         this.record.complete();
 
         // Play completion sound
         audioManager.play('complete');
 
-        // Save to storage
+        // Save to local storage
         StorageService.add(StorageService.KEYS.LEARNING_RECORDS, this.record);
+
+        // Sync to cloud if user is authenticated
+        const currentUser = authService.getCurrentUser();
+        if (currentUser) {
+            try {
+                const stats = this.getStatistics();
+
+                // Save course progress
+                await userDataService.saveProgress(this.courseId, {
+                    status: 'completed',
+                    accuracy: stats.accuracyPercentage,
+                    wordsLearned: stats.wordCount,
+                    timeSpent: stats.timeSpentSeconds
+                });
+
+                // Record daily statistics
+                await userDataService.recordDailyStats({
+                    coursesCompleted: 1,
+                    questionsAnswered: stats.totalQuestions,
+                    correctAnswers: stats.correctCount,
+                    wordsLearned: stats.wordCount,
+                    timeSpent: stats.timeSpentSeconds
+                });
+
+                console.log('Course progress synced to cloud');
+            } catch (error) {
+                console.error('Failed to sync course completion to cloud:', error);
+                // Don't throw - user can still see local results
+            }
+        }
 
         console.log('Course completed:', this.getStatistics());
         return this.record;
