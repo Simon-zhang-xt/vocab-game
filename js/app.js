@@ -7,6 +7,7 @@ import CourseList from './components/CourseList.js';
 import GameView from './components/GameView.js';
 import ResultsView from './components/ResultsView.js';
 import AuthView from './components/AuthView.js';
+import UserCenterView from './components/UserCenterView.js';
 import authService from './services/AuthService.js';
 import audioManager from './utils/audio.js';
 
@@ -260,6 +261,17 @@ class App {
     }
 
     /**
+     * Show user center
+     */
+    async showUserCenter() {
+        this.currentView = new UserCenterView(this.mainContent);
+        await this.currentView.init();
+
+        // Update navigation
+        this.updateNavigation('profile');
+    }
+
+    /**
      * Update navigation active state
      * @param {string|null} activeLink
      */
@@ -309,6 +321,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (href === '#home') {
                 e.preventDefault();
                 app.showCourseList();
+            } else if (href === '#profile') {
+                e.preventDefault();
+                app.showUserCenter();
             } else if (href === '#settings') {
                 e.preventDefault();
                 app.showSettings();
