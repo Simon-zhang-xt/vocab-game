@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>词库管理后台 - Vocabulary Admin</title>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <div id="admin-app">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="nav-brand">
+                <h1>🛠️ 词库管理后台</h1>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">返回学习页面</a>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main id="admin-content">
+            <div class="admin-container">
+                <!-- Tabs -->
+                <div class="admin-tabs">
+                    <button class="tab-btn active" data-tab="words">
+                        📖 单词管理
+                    </button>
+                    <button class="tab-btn" data-tab="courses">
+                        📚 课程管理
+                    </button>
+                    <button class="tab-btn" data-tab="import">
+                        📥 批量导入
+                    </button>
+                    <button class="tab-btn" data-tab="export">
+                        📤 数据导出
+                    </button>
+                </div>
+
+                <!-- Words Management Tab -->
+                <div id="tab-words" class="tab-content active">
+                    <div class="admin-header">
+                        <h2>单词管理 Word Management</h2>
+                        <button id="add-word-btn" class="btn btn-primary">
+                            ➕ 添加新单词
+                        </button>
+                    </div>
+
+                    <!-- Word Form -->
+                    <div id="word-form" class="card form-card hidden">
+                        <h3>添加/编辑单词</h3>
+                        <form id="word-form-element">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>单词 *</label>
+                                    <input type="text" id="word-text" required placeholder="例如: abandon">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>音标</label>
+                                    <input type="text" id="word-phonetic" placeholder="例如: /əˈbændən/">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>词性 *</label>
+                                    <select id="word-pos" required>
+                                        <option value="">选择词性</option>
+                                        <option value="n.">n. 名词</option>
+                                        <option value="v.">v. 动词</option>
+                                        <option value="adj.">adj. 形容词</option>
+                                        <option value="adv.">adv. 副词</option>
+                                        <option value="prep.">prep. 介词</option>
+                                        <option value="conj.">conj. 连词</option>
+                                        <option value="pron.">pron. 代词</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>难度等级 *</label>
+                                    <select id="word-difficulty" required>
+                                        <option value="1">Level 1 - 简单</option>
+                                        <option value="2">Level 2 - 中等</option>
+                                        <option value="3">Level 3 - 困难</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>释义（中文）*</label>
+                                <textarea id="word-definition" required rows="2" placeholder="例如: v. 放弃；抛弃"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label>例句（英文）</label>
+                                <textarea id="word-example-en" rows="2" placeholder="例如: He abandoned his family."></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label>例句翻译（中文）</label>
+                                <textarea id="word-example-zh" rows="2" placeholder="例如: 他抛弃了他的家人。"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label>同义词（逗号分隔）</label>
+                                <input type="text" id="word-synonyms" placeholder="例如: desert, forsake, leave">
+                            </div>
+
+                            <div class="form-group">
+                                <label>反义词（逗号分隔）</label>
+                                <input type="text" id="word-antonyms" placeholder="例如: keep, maintain">
+                            </div>
+
+                            <div class="form-group">
+                                <label>标签（逗号分隔）</label>
+                                <input type="text" id="word-tags" placeholder="例如: TOEFL, 高频, 动词">
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">💾 保存单词</button>
+                                <button type="button" id="cancel-word-btn" class="btn btn-secondary">取消</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Words List -->
+                    <div class="words-list" id="words-list">
+                        <div class="loading">
+                            <div class="spinner"></div>
+                            <p>加载单词库...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Courses Management Tab -->
+                <div id="tab-courses" class="tab-content">
+                    <div class="admin-header">
+                        <h2>课程管理 Course Management</h2>
+                        <button id="add-course-btn" class="btn btn-primary">
+                            ➕ 添加新课程
+                        </button>
+                    </div>
+
+                    <!-- Course Form -->
+                    <div id="course-form" class="card form-card hidden">
+                        <h3>添加/编辑课程</h3>
+                        <form id="course-form-element">
+                            <div class="form-group">
+                                <label>课程系列 *</label>
+                                <select id="course-series" required>
+                                    <option value="">选择系列</option>
+                                    <option value="toefl-core">TOEFL核心词汇</option>
+                                    <option value="ielts-core">IELTS核心词汇</option>
+                                    <option value="business">商务英语</option>
+                                </select>
+                            </div>
+
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>课程ID *</label>
+                                    <input type="text" id="course-id" required placeholder="例如: toefl-core-01">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>课程编号 *</label>
+                                    <input type="number" id="course-number" required min="1" placeholder="1">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>课程标题 *</label>
+                                <input type="text" id="course-title" required placeholder="例如: Unit 1 - 学术类基础词汇">
+                            </div>
+
+                            <div class="form-group">
+                                <label>课程描述</label>
+                                <textarea id="course-description" rows="2" placeholder="例如: 学习TOEFL学术类文章中的常见基础词汇"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label>包含的单词ID（逗号分隔）*</label>
+                                <textarea id="course-word-ids" required rows="3" placeholder="例如: word_001, word_002, word_003"></textarea>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">💾 保存课程</button>
+                                <button type="button" id="cancel-course-btn" class="btn btn-secondary">取消</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Courses List -->
+                    <div class="courses-list" id="courses-list">
+                        <div class="loading">
+                            <div class="spinner"></div>
+                            <p>加载课程列表...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Import Tab -->
+                <div id="tab-import" class="tab-content">
+                    <div class="admin-header">
+                        <h2>批量导入 Bulk Import</h2>
+                    </div>
+
+                    <div class="card">
+                        <h3>📥 JSON格式导入</h3>
+                        <p style="color: var(--text-secondary); margin-bottom: var(--spacing-lg);">
+                            粘贴JSON格式的单词数据，点击导入按钮批量添加到词库。
+                        </p>
+
+                        <div class="form-group">
+                            <label>JSON数据 *</label>
+                            <textarea id="import-json" rows="15" placeholder='[
+  {
+    "id": "word_001",
+    "word": "abandon",
+    "phonetic": "/əˈbændən/",
+    "partOfSpeech": "v.",
+    "definition": "放弃；抛弃",
+    "example": {
+      "en": "He abandoned his family.",
+      "zh": "他抛弃了他的家人。"
+    },
+    "synonyms": ["desert", "forsake"],
+    "antonyms": ["keep", "maintain"],
+    "difficulty": 2,
+    "tags": ["TOEFL", "高频"]
+  }
+]'></textarea>
+                        </div>
+
+                        <div class="form-actions">
+                            <button id="import-words-btn" class="btn btn-primary">
+                                📥 导入单词
+                            </button>
+                            <button id="download-template-btn" class="btn btn-secondary">
+                                📄 下载模板
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Export Tab -->
+                <div id="tab-export" class="tab-content">
+                    <div class="admin-header">
+                        <h2>数据导出 Data Export</h2>
+                    </div>
+
+                    <div class="card">
+                        <h3>📤 导出词库数据</h3>
+                        <p style="color: var(--text-secondary); margin-bottom: var(--spacing-lg);">
+                            导出当前所有词库和课程数据为JSON格式，可用于备份或迁移。
+                        </p>
+
+                        <div class="form-actions">
+                            <button id="export-words-btn" class="btn btn-primary">
+                                📥 导出所有单词
+                            </button>
+                            <button id="export-courses-btn" class="btn btn-primary">
+                                📥 导出所有课程
+                            </button>
+                            <button id="export-all-btn" class="btn btn-success">
+                                📦 导出完整数据
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="card" style="margin-top: var(--spacing-xl);">
+                        <h3>📊 数据统计</h3>
+                        <div id="data-stats" class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-card-icon">📖</div>
+                                <div class="stat-card-value" id="total-words">0</div>
+                                <div class="stat-card-label">总单词数</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-card-icon">📚</div>
+                                <div class="stat-card-value" id="total-courses">0</div>
+                                <div class="stat-card-label">总课程数</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-card-icon">📑</div>
+                                <div class="stat-card-value" id="total-series">0</div>
+                                <div class="stat-card-label">课程系列数</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- JavaScript -->
+    <script type="module" src="js/admin.js"></script>
+</body>
+</html>
