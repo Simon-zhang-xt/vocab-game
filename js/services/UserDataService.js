@@ -239,6 +239,28 @@ class UserDataService {
     }
 
     /**
+     * 获取所有单词掌握度数据（用于统计和可视化）
+     */
+    async getAllWordMastery() {
+        const user = authService.getCurrentUser();
+        if (!user) return { data: [], error: null };
+
+        try {
+            const { data, error } = await supabase
+                .from('word_mastery')
+                .select('*')
+                .eq('user_id', user.id)
+                .order('mastery_level', { ascending: false });
+
+            if (error) throw error;
+            return { data, error: null };
+        } catch (error) {
+            console.error('Get all word mastery error:', error);
+            return { data: [], error };
+        }
+    }
+
+    /**
      * 获取错题记录
      */
     async getMistakes(limit = 50) {

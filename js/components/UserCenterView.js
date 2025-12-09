@@ -189,6 +189,28 @@ class UserCenterView {
                         <div class="stat-card-sublabel">Mistakes</div>
                     </div>
                 </div>
+
+                <!-- Word Mastery Distribution -->
+                ${this.renderMasteryDistribution()}
+            </div>
+        `;
+    }
+
+    /**
+     * Render word mastery distribution
+     */
+    renderMasteryDistribution() {
+        return `
+            <div class="mastery-distribution-card">
+                <h4 class="mastery-title">
+                    🎯 单词掌握度分布 Word Mastery Distribution
+                </h4>
+                <div id="mastery-chart-container" class="mastery-chart-container">
+                    <div class="loading-placeholder">
+                        <div class="spinner-small"></div>
+                        <p>加载掌握度数据...</p>
+                    </div>
+                </div>
             </div>
         `;
     }
@@ -306,6 +328,9 @@ class UserCenterView {
      * Attach event listeners
      */
     attachEventListeners() {
+        // Load mastery distribution
+        this.loadMasteryDistribution();
+
         // Load progress button
         const loadProgressBtn = this.container.querySelector('#load-progress-btn');
         if (loadProgressBtn) {
@@ -669,6 +694,190 @@ class UserCenterView {
             console.error('Failed to update username:', error);
             alert('更新失败: ' + error.message);
         }
+    }
+
+    /**
+     * Load mastery distribution
+     */
+    async loadMasteryDistribution() {
+        const container = document.getElementById('mastery-chart-container');
+        if (!container) return;
+
+        try {
+            // Get all word mastery data from database
+            const user = authService.getCurrentUser();
+            if (!user) {
+                container.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">请登录查看掌握度数据</p>';
+                return;
+            }
+
+            const { data: masteryData, error } = await userDataService.getAllWordMastery();
+
+            if (error) throw error;
+
+            // Group words by mastery level
+            const levels = {
+                0: { name: '未掌握', color: '#FF6B7A', icon: '😰', words: [] },
+                1: { name: '初识', color: '#FFB800', icon: '😐', words: [] },
+                2: { name: '熟悉', color: '#00D68F', icon: '🙂', words: [] },
+                3: { name: '掌握', color: '#4F46E5', icon: '😊', words: [] },
+                4: { name: '精通', color: '#667EEA', icon: '🤩', words: [] }
+            };
+
+            // Distribute words to levels
+            if (masteryData && masteryData.length > 0) {
+                masteryData.forEach(item => {
+                    const level = Math.min(item.mastery_level || 0, 4);
+                    levels[level].words.push(item);
+                });
+            }
+
+            // Calculate total
+            const totalWords = masteryData ? masteryData.length : 0;
+
+            if (totalWords === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: var(--spacing-xl); color: var(--text-secondary);">
+                        <p>📖 还没有学习记录</p>
+                        <p style="font-size: var(--font-size-sm); margin-top: var(--spacing-sm);">完成课程后即可查看单词掌握度分布</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Render mastery chart
+            container.innerHTML = `
+                <div class="mastery-levels">
+                    ${Object.entries(levels).map(([level, data]) => {
+                        const count = data.words.length;
+                        const percentage = totalWords > 0 ? ((count / totalWords) * 100).toFixed(1) : 0;
+
+                        return `
+                            <div class="mastery-level-item" onclick="window.userCenterView.showLevelDetails(${level})">
+                                <div class="mastery-level-header">
+                                    <span class="mastery-level-icon">${data.icon}</span>
+                                    <span class="mastery-level-name">${data.name}</span>
+                                    <span class="mastery-level-count">${count} 词</span>
+                                </div>
+                                <div class="mastery-progress-bar">
+                                    <div class="mastery-progress-fill" style="width: ${percentage}%; background: ${data.color};"></div>
+                                </div>
+                                <div class="mastery-level-percentage" style="color: ${data.color};">
+                                    ${percentage}%
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+
+                <div class="mastery-summary">
+                    <div class="mastery-summary-item">
+                        <span class="mastery-summary-label">总词汇量</span>
+                        <span class="mastery-summary-value">${totalWords}</span>
+                    </div>
+                    <div class="mastery-summary-item">
+                        <span class="mastery-summary-label">已掌握</span>
+                        <span class="mastery-summary-value" style="color: #4F46E5;">
+                            ${levels[3].words.length + levels[4].words.length}
+                        </span>
+                    </div>
+                    <div class="mastery-summary-item">
+                        <span class="mastery-summary-label">掌握率</span>
+                        <span class="mastery-summary-value" style="color: #00D68F;">
+                            ${totalWords > 0 ? (((levels[3].words.length + levels[4].words.length) / totalWords) * 100).toFixed(1) : 0}%
+                        </span>
+                    </div>
+                </div>
+            `;
+
+            // Store for later use
+            this.masteryLevels = levels;
+
+            // Expose to window for onclick
+            window.userCenterView = this;
+
+        } catch (error) {
+            console.error('Failed to load mastery distribution:', error);
+            container.innerHTML = `
+                <div style="text-align: center; padding: var(--spacing-xl); color: var(--error-color);">
+                    <p>⚠️ 加载失败</p>
+                    <p style="font-size: var(--font-size-sm);">${error.message}</p>
+                </div>
+            `;
+        }
+    }
+
+    /**
+     * Show level details modal
+     */
+    showLevelDetails(level) {
+        if (!this.masteryLevels || !this.masteryLevels[level]) return;
+
+        const levelData = this.masteryLevels[level];
+        const words = levelData.words;
+
+        if (words.length === 0) {
+            alert(`${levelData.name}等级暂无单词\n\nNo words in ${levelData.name} level yet.`);
+            return;
+        }
+
+        const modal = document.createElement('div');
+        modal.className = 'modal';
+        modal.style.zIndex = '10000';
+
+        modal.innerHTML = `
+            <div class="modal-content" style="max-width: 600px; max-height: 80vh; overflow-y: auto;">
+                <h2 style="color: ${levelData.color}; margin-bottom: var(--spacing-md);">
+                    ${levelData.icon} ${levelData.name} (${words.length} 词)
+                </h2>
+                <p style="color: var(--text-secondary); margin-bottom: var(--spacing-xl); font-size: var(--font-size-sm);">
+                    点击单词查看详情 · Click word for details
+                </p>
+                <div class="word-list" style="max-height: 400px; overflow-y: auto;">
+                    ${words.map(word => `
+                        <div class="word-mastery-item" style="background: var(--bg-secondary); padding: var(--spacing-md); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm);">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <strong style="color: var(--text-primary); font-size: var(--font-size-lg);">${word.word_id}</strong>
+                                    <div style="font-size: var(--font-size-xs); color: var(--text-secondary); margin-top: var(--spacing-xs);">
+                                        ✅ ${word.correct_count || 0} 次正确 · ❌ ${word.incorrect_count || 0} 次错误
+                                    </div>
+                                </div>
+                                <div style="text-align: right;">
+                                    <div style="font-size: var(--font-size-xs); color: var(--text-tertiary);">
+                                        上次复习: ${new Date(word.last_reviewed).toLocaleDateString('zh-CN')}
+                                    </div>
+                                    ${word.next_review ? `
+                                        <div style="font-size: var(--font-size-xs); color: ${levelData.color};">
+                                            下次: ${new Date(word.next_review).toLocaleDateString('zh-CN')}
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+                <div style="margin-top: var(--spacing-xl);">
+                    <button class="btn btn-secondary" id="close-level-modal">
+                        关闭 Close
+                    </button>
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(modal);
+
+        // Close button
+        document.getElementById('close-level-modal').addEventListener('click', () => {
+            modal.remove();
+        });
+
+        // Click outside to close
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.remove();
+            }
+        });
     }
 
     /**
