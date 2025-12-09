@@ -1,205 +1,148 @@
-# 词汇学习游戏 / Vocabulary Learning Game
+# 📚 词汇学习游戏 V2.0 - Vocabulary Learning Game
 
-Interactive web-based vocabulary learning game for TOEFL and IELTS preparation.
+现代化的交互式词汇学习Web应用，支持TOEFL/IELTS备考，包含用户账号、云端同步、后台管理等完整功能。
 
-## 🚀 Quick Start
+## ✨ 核心特性
 
-### Option 1: Direct Browser (Simple)
+### 🎮 学习端
+- **多种题型**: 选择题、填空题、匹配题
+- **智能复习**: Ebbinghaus遗忘曲线算法
+- **学习统计**: 实时进度追踪、准确率分析
+- **现代UI**: 流利说风格设计，渐变配色，流畅动画
+- **响应式**: 完美支持桌面和移动端（底部导航）
+- **用户系统**: 注册登录、游客模式
+- **云端同步**: Supabase后端，数据实时同步
 
-1. Open `index.html` in your browser
-2. Accept privacy notice
-3. Start learning!
+### 🛠️ 后台管理
+- **词库管理**: 完整的单词增删改查
+- **课程管理**: 课程创建和编辑
+- **批量导入**: JSON格式批量导入
+- **数据导出**: 完整数据备份
 
-**Note**: Some browsers may block LocalStorage when opening files directly. If you see errors, use Option 2.
+## 🚀 快速访问
 
-### Option 2: Local Server (Recommended)
+**学习页面**: https://simon-zhang-xt.github.io/vocab-game/
 
-```bash
-# Navigate to prototype directory
-cd specs/004-vocab-game-web/prototype/
+**后台管理**: https://simon-zhang-xt.github.io/vocab-game/admin.html
 
-# Option A: Using Python
-python3 -m http.server 8080
+## 📖 使用说明
 
-# Option B: Using Node.js http-server
+### 后台管理 - 添加单词词库
+
+1. 访问 `/admin.html`
+2. 点击"添加新单词"按钮
+3. 填写必填字段：
+   - 单词（例如: abandon）
+   - 词性（例如: v.）
+   - 释义（例如: 放弃；抛弃）
+   - 难度等级（1-3）
+4. 可选填写: 音标、例句、同义词、反义词、标签
+5. 点击"保存单词"
+
+### 批量导入单词
+
+使用JSON格式批量导入：
+
+\`\`\`json
+[
+  {
+    "id": "word_001",
+    "word": "abandon",
+    "phonetic": "/əˈbændən/",
+    "partOfSpeech": "v.",
+    "definition": "放弃；抛弃",
+    "example": {
+      "en": "He abandoned his family.",
+      "zh": "他抛弃了他的家人。"
+    },
+    "synonyms": ["desert", "forsake"],
+    "antonyms": ["keep", "maintain"],
+    "difficulty": 2,
+    "tags": ["TOEFL", "高频"]
+  }
+]
+\`\`\`
+
+## 🏗️ 技术栈
+
+- **前端**: Vanilla JavaScript ES6+, CSS3
+- **后端**: Supabase (PostgreSQL + Auth)
+- **部署**: GitHub Pages
+- **设计**: 流利说风格现代UI
+
+## 📁 项目结构
+
+\`\`\`
+vocab-game/
+├── index.html              # 学习页面
+├── admin.html              # 后台管理
+├── css/                    # 样式文件
+├── js/
+│   ├── app.js             # 主应用
+│   ├── admin.js           # 后台管理
+│   ├── models/            # 数据模型
+│   ├── services/          # 服务层
+│   ├── components/        # UI组件
+│   └── utils/             # 工具函数
+├── data/                   # 初始数据
+└── tests/                  # 测试文件
+\`\`\`
+
+## 🗄️ 数据库结构
+
+- **user_profiles**: 用户资料（level, points, streak）
+- **user_progress**: 学习进度
+- **word_mastery**: 单词掌握度（Ebbinghaus）
+- **mistake_records**: 错题记录
+- **daily_stats**: 每日统计
+
+## 🎨 UI特点
+
+- 渐变色系：紫色主题
+- 大圆角设计：16-32px
+- 流畅动画：60 FPS
+- 移动端底部导航
+- 卡片悬浮效果
+
+## 📱 移动端支持
+
+- 底部Tab导航（<768px）
+- 触摸优化
+- 响应式布局
+- GPU加速动画
+
+## 🔐 隐私保护
+
+- 游客模式：LocalStorage本地存储
+- 注册用户：Supabase云端加密
+- 可随时删除数据
+- 无第三方追踪
+
+## 🛠️ 本地开发
+
+\`\`\`bash
+# 克隆项目
+git clone https://github.com/Simon-zhang-xt/vocab-game.git
+
+# 启动服务器
+cd vocab-game
 npx http-server -p 8080
 
-# Option C: Using live-server (with auto-reload)
-npx live-server --port=8080
-```
+# 访问
+# http://localhost:8080 - 学习页面
+# http://localhost:8080/admin.html - 后台管理
+\`\`\`
 
-Then open: `http://localhost:8080`
+## 📄 许可证
 
-## 📁 Project Structure
+MIT License
 
-```
-prototype/
-├── index.html              # Main entry point
-├── css/                    # Stylesheets
-│   ├── main.css           # Global styles
-│   ├── course.css         # Course list styles
-│   ├── game.css           # Quiz game styles
-│   └── animations.css     # CSS animations
-├── js/                    # JavaScript modules
-│   ├── app.js            # Application bootstrap
-│   ├── models/           # Data models
-│   ├── services/         # Business logic
-│   ├── components/       # UI components
-│   └── utils/            # Helper utilities
-├── data/                  # Vocabulary and course data
-│   ├── toefl-vocab.json  # TOEFL vocabulary (12 words)
-│   ├── ielts-vocab.json  # IELTS vocabulary (1 word)
-│   └── courses.json      # Course definitions
-└── assets/               # Media files
-    ├── audio/            # Sound effects (see audio/README.md)
-    └── images/           # Thumbnails and icons
-```
+## 👨‍💻 作者
 
-## ✨ Features (MVP)
-
-- ✅ Browse course series (TOEFL, IELTS)
-- ✅ Interactive quiz games (Multiple Choice, Matching, Fill-in-Blank)
-- ✅ Immediate feedback with animations and sound
-- ✅ Learning statistics and results
-- ✅ Progress saved in browser (LocalStorage)
-- ✅ Responsive design (mobile and desktop)
-- ✅ Privacy compliant (data stored locally only)
-
-## 🎯 How to Use
-
-1. **Browse Courses**: Select a course series on the home page
-2. **Start Learning**: Click on a course to begin
-3. **Answer Questions**: Complete interactive quiz questions
-4. **Review Results**: See your learning statistics
-5. **Track Progress**: Your progress is automatically saved
-
-## 🔧 Development
-
-### Install Dependencies
-
-```bash
-npm install
-```
-
-### Run Tests
-
-```bash
-# Unit tests (Jest)
-npm test
-
-# E2E tests (Playwright)
-npm run test:e2e
-
-# E2E with visible browser
-npm run test:e2e:headed
-```
-
-### Browser Support
-
-- Chrome 90+
-- Firefox 88+
-- Safari 14+
-- Edge 90+
-- Mobile browsers (iOS Safari, Chrome Android)
-
-## 📊 Data Storage
-
-- **Method**: Browser LocalStorage
-- **Size**: ~900KB (well under 5MB limit)
-- **Persistence**: Data persists until manually deleted
-- **Privacy**: All data stored locally, never sent to servers
-
-### View Storage
-
-1. Open browser DevTools (F12)
-2. Go to Application → Local Storage
-3. Look for keys starting with `vocab_`
-
-### Clear Data
-
-Go to Settings → Delete All Learning Data
-
-## 🎨 Customization
-
-### Adding Vocabulary
-
-Edit `data/toefl-vocab.json` or `data/ielts-vocab.json`:
-
-```json
-{
-  "id": "w-013",
-  "word": "example",
-  "phonetic": "/ɪɡˈzæm.pəl/",
-  "partOfSpeech": "noun",
-  "definitions": [
-    {
-      "chinese": "例子",
-      "english": "A thing characteristic of its kind",
-      "example": "This is a good example."
-    }
-  ],
-  "source": "toefl",
-  "difficultyLevel": 2,
-  "tags": ["academic"]
-}
-```
-
-### Adding Courses
-
-Edit `data/courses.json` to add new courses and series.
-
-See `contracts/` directory for complete data schemas.
-
-## 🐛 Troubleshooting
-
-### Issue: "Failed to initialize"
-
-**Solution**: Make sure you're running with a local server (Option 2 above).
-
-### Issue: No audio
-
-**Solution**: Audio files are optional. Add .mp3 files to `assets/audio/` (see audio/README.md).
-
-### Issue: Data not saving
-
-**Solution**:
-1. Check if browser supports LocalStorage
-2. Check browser privacy settings (allow cookies/storage)
-3. Clear browser cache and try again
-
-### Issue: Course not loading
-
-**Solution**: Check browser console (F12) for errors. Verify `data/*.json` files are valid JSON.
-
-## 📝 License
-
-MIT License - Free for educational use
-
-## 🤝 Contributing
-
-This is an MVP prototype. For improvements:
-1. Check `../tasks.md` for planned features
-2. Review `../spec.md` for requirements
-3. Follow code style in existing files
-
-## 📖 Documentation
-
-- [Feature Specification](../spec.md)
-- [Implementation Plan](../plan.md)
-- [Data Model](../data-model.md)
-- [API Contracts](../contracts/)
-- [Task List](../tasks.md)
-- [Quickstart Guide](../quickstart.md)
-
-## 🎓 Learning Tips
-
-- Complete courses in sequence (Course 1 → Course 2 → ...)
-- Review results after each course
-- Aim for 75%+ accuracy
-- Take breaks between courses (spaced repetition)
-- Check Settings to monitor storage usage
+**Simon Zhang** - GitHub: [@Simon-zhang-xt](https://github.com/Simon-zhang-xt)
 
 ---
 
-**Version**: 1.0.0 (MVP)
-**Last Updated**: 2025-12-08
+**⭐ 如果这个项目对你有帮助，请给个Star！**
+
+**Made with ❤️ by Claude Code + Sonnet**
