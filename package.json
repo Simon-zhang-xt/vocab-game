@@ -26,5 +26,8 @@
     "@playwright/test": "^1.40.0",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.87.0"
   }
 }

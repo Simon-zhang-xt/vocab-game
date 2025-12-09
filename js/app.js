@@ -6,12 +6,16 @@ import StorageService from './services/StorageService.js';
 import CourseList from './components/CourseList.js';
 import GameView from './components/GameView.js';
 import ResultsView from './components/ResultsView.js';
+import AuthView from './components/AuthView.js';
+import authService from './services/AuthService.js';
 import audioManager from './utils/audio.js';
 
 class App {
     constructor() {
         this.mainContent = document.getElementById('main-content');
         this.currentView = null;
+        this.currentUser = null;
+        this.isGuestMode = false;
         this.init();
     }
 
@@ -22,6 +26,22 @@ class App {
         console.log('Initializing Vocabulary Learning Game...');
 
         try {
+            // Check authentication status
+            this.currentUser = authService.getCurrentUser();
+            this.isGuestMode = localStorage.getItem('guest_mode') === 'true';
+
+            console.log('Auth status:', {
+                user: this.currentUser?.email,
+                guestMode: this.isGuestMode
+            });
+
+            // If no user and not guest mode, show authentication page
+            if (!this.currentUser && !this.isGuestMode) {
+                this.showAuth();
+                return;
+            }
+
+            // User is authenticated or in guest mode, continue normal init
             // Show loading
             this.showLoading();
 
@@ -37,10 +57,121 @@ class App {
             // Show course list
             this.showCourseList();
 
+            // Update navbar with user info
+            this.updateNavbar();
+
             console.log('Application initialized successfully');
         } catch (error) {
             console.error('Initialization failed:', error);
             this.showError('应用初始化失败 / App initialization failed', error.message);
+        }
+    }
+
+    /**
+     * Show authentication page
+     */
+    showAuth() {
+        console.log('Showing authentication page');
+        const authView = new AuthView(
+            this.mainContent,
+            (user) => this.handleAuthSuccess(user)
+        );
+        authView.render();
+    }
+
+    /**
+     * Handle successful authentication
+     */
+    async handleAuthSuccess(user) {
+        console.log('Authentication successful');
+
+        if (user) {
+            // User logged in
+            this.currentUser = user;
+            this.isGuestMode = false;
+            localStorage.removeItem('guest_mode');
+            console.log('User logged in:', user.email);
+        } else {
+            // Guest mode
+            this.currentUser = null;
+            this.isGuestMode = true;
+            localStorage.setItem('guest_mode', 'true');
+            console.log('Guest mode activated');
+        }
+
+        // Re-initialize the app with auth state
+        await this.init();
+    }
+
+    /**
+     * Update navbar with user info and logout button
+     */
+    updateNavbar() {
+        const navMenu = document.querySelector('.nav-menu');
+
+        // Remove old user menu if exists
+        const oldUserMenu = document.querySelector('.user-menu');
+        if (oldUserMenu) {
+            oldUserMenu.remove();
+        }
+
+        // Add user menu
+        const userMenu = document.createElement('div');
+        userMenu.className = 'user-menu';
+        userMenu.style.cssText = 'display: flex; align-items: center; gap: var(--spacing-md);';
+
+        if (this.currentUser) {
+            // Show user email and logout
+            userMenu.innerHTML = `
+                <span style="color: var(--text-secondary); font-size: var(--font-size-sm);">
+                    ${this.currentUser.email}
+                </span>
+                <button id="logout-btn" class="btn btn-secondary" style="padding: var(--spacing-sm) var(--spacing-md); font-size: var(--font-size-sm);">
+                    登出 Logout
+                </button>
+            `;
+        } else if (this.isGuestMode) {
+            // Show guest mode and login option
+            userMenu.innerHTML = `
+                <span style="color: var(--text-secondary); font-size: var(--font-size-sm);">
+                    🎮 游客模式
+                </span>
+                <button id="login-btn" class="btn btn-secondary" style="padding: var(--spacing-sm) var(--spacing-md); font-size: var(--font-size-sm);">
+                    登录 Login
+                </button>
+            `;
+        }
+
+        navMenu.appendChild(userMenu);
+
+        // Attach event listeners
+        const logoutBtn = document.getElementById('logout-btn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', () => this.handleLogout());
+        }
+
+        const loginBtn = document.getElementById('login-btn');
+        if (loginBtn) {
+            loginBtn.addEventListener('click', () => {
+                localStorage.removeItem('guest_mode');
+                this.isGuestMode = false;
+                this.showAuth();
+            });
+        }
+    }
+
+    /**
+     * Handle logout
+     */
+    async handleLogout() {
+        if (confirm('确定要登出吗？\n\nAre you sure you want to logout?')) {
+            await authService.signOut();
+            this.currentUser = null;
+            this.isGuestMode = false;
+            localStorage.removeItem('guest_mode');
+
+            // Clear the page and show auth
+            this.showAuth();
         }
     }
 
