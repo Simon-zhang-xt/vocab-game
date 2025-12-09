@@ -276,10 +276,22 @@ class App {
      * @param {string|null} activeLink
      */
     updateNavigation(activeLink) {
+        // Update desktop navigation
         const links = document.querySelectorAll('.nav-link');
         links.forEach(link => {
             const href = link.getAttribute('href');
             if (href === `#${activeLink}`) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+
+        // Update mobile navigation
+        const mobileLinks = document.querySelectorAll('.mobile-nav-item');
+        mobileLinks.forEach(link => {
+            const navType = link.getAttribute('data-nav');
+            if (navType === activeLink) {
                 link.classList.add('active');
             } else {
                 link.classList.remove('active');

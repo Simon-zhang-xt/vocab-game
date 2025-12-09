@@ -53,21 +53,23 @@ class CourseList {
                 <div class="series-thumbnail">
                     📖
                 </div>
-                <div class="series-header">
-                    <h3 class="series-title">${series.title}</h3>
-                    <div class="series-badges">
-                        <span class="badge badge-theme">${series.getThemeDisplay()}</span>
-                        <span class="badge badge-difficulty">${series.getDifficultyDisplay()}</span>
+                <div class="series-content">
+                    <div class="series-header">
+                        <h3 class="series-title">${series.title}</h3>
+                        <div class="series-badges">
+                            <span class="badge badge-theme">${series.getThemeDisplay()}</span>
+                            <span class="badge badge-difficulty">${series.getDifficultyDisplay()}</span>
+                        </div>
                     </div>
-                </div>
-                <p class="series-description">${series.description}</p>
-                <div class="series-meta">
-                    <span class="meta-item">
-                        📝 ${series.getCourseCount()} 个课程
-                    </span>
-                    <span class="meta-item">
-                        ⏱️ ${series.totalEstimatedMinutes} 分钟
-                    </span>
+                    <p class="series-description">${series.description}</p>
+                    <div class="series-meta">
+                        <span class="meta-item">
+                            📝 ${series.getCourseCount()} 个课程
+                        </span>
+                        <span class="meta-item">
+                            ⏱️ ${series.totalEstimatedMinutes} 分钟
+                        </span>
+                    </div>
                 </div>
             </div>
         `;
