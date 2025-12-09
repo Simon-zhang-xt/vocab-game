@@ -393,22 +393,240 @@ class UserCenterView {
      * View mistakes
      */
     async viewMistakes() {
-        alert('错题集功能开发中...\n\nMistake review feature coming soon!');
+        try {
+            const { data: mistakes, error } = await userDataService.getMistakes();
 
-        // TODO: Implement mistakes view
-        // const { mistakes } = await userDataService.getMistakes();
-        // Show mistakes in a modal or separate view
+            if (error) {
+                alert('获取错题失败: ' + error.message);
+                return;
+            }
+
+            if (!mistakes || mistakes.length === 0) {
+                alert('太棒了！您还没有错题记录。\n\nGreat! You have no mistakes yet.');
+                return;
+            }
+
+            // 显示错题列表在模态框中
+            this.showMistakesModal(mistakes);
+        } catch (error) {
+            console.error('View mistakes error:', error);
+            alert('加载错题失败');
+        }
+    }
+
+    /**
+     * Show mistakes modal
+     */
+    showMistakesModal(mistakes) {
+        const modal = document.createElement('div');
+        modal.className = 'modal';
+        modal.style.zIndex = '10000';
+
+        // 按课程分组
+        const groupedByWord = {};
+        mistakes.forEach(m => {
+            if (!groupedByWord[m.word_id]) {
+                groupedByWord[m.word_id] = [];
+            }
+            groupedByWord[m.word_id].push(m);
+        });
+
+        const mistakesList = Object.entries(groupedByWord).map(([wordId, records]) => {
+            const latestRecord = records[0];
+            return `
+                <div style="background: var(--bg-secondary); padding: var(--spacing-md); border-radius: var(--radius-lg); margin-bottom: var(--spacing-md);">
+                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: var(--spacing-sm);">
+                        <div>
+                            <strong style="color: var(--error-color); font-size: var(--font-size-lg);">${wordId}</strong>
+                            <span style="color: var(--text-secondary); font-size: var(--font-size-sm); margin-left: var(--spacing-sm);">
+                                错误 ${records.length} 次
+                            </span>
+                        </div>
+                        <span style="color: var(--text-tertiary); font-size: var(--font-size-xs);">
+                            ${new Date(latestRecord.created_at).toLocaleDateString('zh-CN')}
+                        </span>
+                    </div>
+                    <div style="font-size: var(--font-size-sm); color: var(--text-secondary); margin-bottom: var(--spacing-xs);">
+                        <strong>题型:</strong> ${latestRecord.question_type}
+                    </div>
+                    <div style="font-size: var(--font-size-sm); color: var(--text-secondary); margin-bottom: var(--spacing-xs);">
+                        <strong>你的答案:</strong> <span style="color: var(--error-color);">${latestRecord.user_answer || '未作答'}</span>
+                    </div>
+                    <div style="font-size: var(--font-size-sm); color: var(--text-secondary);">
+                        <strong>正确答案:</strong> <span style="color: var(--success-color);">${latestRecord.correct_answer}</span>
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+        modal.innerHTML = `
+            <div class="modal-content" style="max-width: 600px; max-height: 80vh; overflow-y: auto;">
+                <h2 style="color: var(--primary-color); margin-bottom: var(--spacing-lg);">
+                    📋 错题本 Mistake Review
+                </h2>
+                <p style="color: var(--text-secondary); margin-bottom: var(--spacing-xl);">
+                    共 ${Object.keys(groupedByWord).length} 个单词，总计 ${mistakes.length} 次错误
+                </p>
+                <div style="max-height: 400px; overflow-y: auto;">
+                    ${mistakesList}
+                </div>
+                <div style="margin-top: var(--spacing-xl); display: flex; gap: var(--spacing-md);">
+                    <button class="btn btn-primary" id="practice-mistakes-btn">
+                        🔄 练习这些单词
+                    </button>
+                    <button class="btn btn-secondary" id="close-mistakes-btn">
+                        关闭
+                    </button>
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(modal);
+
+        // Close button
+        document.getElementById('close-mistakes-btn').addEventListener('click', () => {
+            modal.remove();
+        });
+
+        // Practice button
+        document.getElementById('practice-mistakes-btn').addEventListener('click', () => {
+            alert('练习功能即将推出！\n\nPractice feature coming soon!');
+            modal.remove();
+        });
+
+        // Click outside to close
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.remove();
+            }
+        });
     }
 
     /**
      * Review words
      */
     async reviewWords() {
-        alert('复习功能开发中...\n\nReview feature coming soon!');
+        try {
+            const { data: dueWords, error } = await userDataService.getDueWords();
 
-        // TODO: Implement review mode
-        // const { words } = await userDataService.getDueWords();
-        // Start a review session with due words
+            if (error) {
+                alert('获取复习单词失败: ' + error.message);
+                return;
+            }
+
+            if (!dueWords || dueWords.length === 0) {
+                alert('太棒了！目前没有需要复习的单词。\n\nGreat! No words due for review right now.');
+                return;
+            }
+
+            // 显示复习单词列表
+            this.showReviewModal(dueWords);
+        } catch (error) {
+            console.error('Review words error:', error);
+            alert('加载复习单词失败');
+        }
+    }
+
+    /**
+     * Show review modal
+     */
+    showReviewModal(dueWords) {
+        const modal = document.createElement('div');
+        modal.className = 'modal';
+        modal.style.zIndex = '10000';
+
+        // 按掌握等级分组
+        const levels = {
+            0: { name: '新学', color: '#FF6B7A', words: [] },
+            1: { name: '初识', color: '#FFB800', words: [] },
+            2: { name: '熟悉', color: '#00D68F', words: [] },
+            3: { name: '掌握', color: '#4F46E5', words: [] },
+            4: { name: '精通', color: '#667EEA', words: [] }
+        };
+
+        dueWords.forEach(word => {
+            const level = Math.min(word.mastery_level || 0, 4);
+            levels[level].words.push(word);
+        });
+
+        const wordsList = Object.entries(levels)
+            .filter(([_, data]) => data.words.length > 0)
+            .map(([level, data]) => {
+                return `
+                    <div style="margin-bottom: var(--spacing-lg);">
+                        <div style="display: flex; align-items: center; gap: var(--spacing-sm); margin-bottom: var(--spacing-md);">
+                            <div style="width: 12px; height: 12px; border-radius: 50%; background: ${data.color};"></div>
+                            <strong style="color: var(--text-primary);">${data.name}</strong>
+                            <span style="color: var(--text-secondary); font-size: var(--font-size-sm);">
+                                (${data.words.length} 个单词)
+                            </span>
+                        </div>
+                        ${data.words.map(word => `
+                            <div style="background: var(--bg-secondary); padding: var(--spacing-sm) var(--spacing-md); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <strong style="color: var(--text-primary);">${word.word_id}</strong>
+                                    <div style="font-size: var(--font-size-xs); color: var(--text-secondary); margin-top: var(--spacing-xs);">
+                                        正确 ${word.correct_count || 0} 次 · 错误 ${word.incorrect_count || 0} 次
+                                    </div>
+                                </div>
+                                <div style="text-align: right; font-size: var(--font-size-xs); color: var(--text-tertiary);">
+                                    ${new Date(word.next_review).toLocaleString('zh-CN', {
+                                        month: 'numeric',
+                                        day: 'numeric',
+                                        hour: '2-digit',
+                                        minute: '2-digit'
+                                    })}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }).join('');
+
+        modal.innerHTML = `
+            <div class="modal-content" style="max-width: 600px; max-height: 80vh; overflow-y: auto;">
+                <h2 style="color: var(--primary-color); margin-bottom: var(--spacing-lg);">
+                    🔄 智能复习 Smart Review
+                </h2>
+                <p style="color: var(--text-secondary); margin-bottom: var(--spacing-md);">
+                    基于<strong>艾宾浩斯遗忘曲线</strong>，为您推荐 <strong>${dueWords.length}</strong> 个需要复习的单词
+                </p>
+                <div style="background: var(--primary-light); padding: var(--spacing-md); border-radius: var(--radius-lg); margin-bottom: var(--spacing-xl); font-size: var(--font-size-sm);">
+                    <strong>复习间隔:</strong> 1分钟 → 10分钟 → 1小时 → 12小时 → 1天 → 7天
+                </div>
+                <div style="max-height: 350px; overflow-y: auto;">
+                    ${wordsList}
+                </div>
+                <div style="margin-top: var(--spacing-xl); display: flex; gap: var(--spacing-md);">
+                    <button class="btn btn-primary" id="start-review-btn">
+                        🚀 开始复习
+                    </button>
+                    <button class="btn btn-secondary" id="close-review-btn">
+                        关闭
+                    </button>
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(modal);
+
+        // Close button
+        document.getElementById('close-review-btn').addEventListener('click', () => {
+            modal.remove();
+        });
+
+        // Start review button
+        document.getElementById('start-review-btn').addEventListener('click', () => {
+            alert(`即将开始复习 ${dueWords.length} 个单词！\n\nReview session starting soon!`);
+            modal.remove();
+        });
+
+        // Click outside to close
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.remove();
+            }
+        });
     }
 
     /**

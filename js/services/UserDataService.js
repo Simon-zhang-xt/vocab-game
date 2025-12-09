@@ -239,6 +239,29 @@ class UserDataService {
     }
 
     /**
+     * 获取错题记录
+     */
+    async getMistakes(limit = 50) {
+        const user = authService.getCurrentUser();
+        if (!user) return { data: [], error: null };
+
+        try {
+            const { data, error } = await supabase
+                .from('mistake_records')
+                .select('*')
+                .eq('user_id', user.id)
+                .order('created_at', { ascending: false })
+                .limit(limit);
+
+            if (error) throw error;
+            return { data, error: null };
+        } catch (error) {
+            console.error('Get mistakes error:', error);
+            return { data: [], error };
+        }
+    }
+
+    /**
      * 记录每日学习统计
      */
     async recordDailyStats(wordsLearned, coursesCompleted, timeSpent, accuracy, pointsEarned) {
