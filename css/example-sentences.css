@@ -1,0 +1,409 @@
+/**
+ * Example Sentences Styles
+ * V2.2.0 - 真实例句学习系统样式
+ */
+
+/* =====================================
+   例句区域布局
+   ===================================== */
+.example-sentences-section {
+  margin: var(--spacing-2xl) 0;
+  padding: var(--spacing-2xl);
+  background: var(--bg-secondary);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-lg);
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-xl);
+  padding-bottom: var(--spacing-lg);
+  border-bottom: 2px solid var(--border-color);
+}
+
+.section-header h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* =====================================
+   播放控制
+   ===================================== */
+.playback-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.playback-controls label {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.rate-selector {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.rate-selector:hover {
+  border-color: var(--primary);
+}
+
+.rate-selector:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+/* =====================================
+   例句列表
+   ===================================== */
+.sentences-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+/* =====================================
+   例句卡片
+   ===================================== */
+.sentence-card {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-lg);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.sentence-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary);
+}
+
+.sentence-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+/* =====================================
+   标签徽章
+   ===================================== */
+.source-badge,
+.difficulty-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-md);
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.source-badge {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.difficulty-badge {
+  color: white;
+}
+
+.difficulty-1 { background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%); }
+.difficulty-2 { background: linear-gradient(135deg, #00d68f 0%, #0abfbc 100%); }
+.difficulty-3 { background: linear-gradient(135deg, #ffb800 0%, #ffa000 100%); }
+.difficulty-4 { background: linear-gradient(135deg, #ff6b7a 0%, #ff5e62 100%); }
+.difficulty-5 { background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%); }
+
+/* =====================================
+   例句内容
+   ===================================== */
+.sentence-content {
+  margin: var(--spacing-md) 0;
+}
+
+.sentence-en {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-sm);
+  font-size: 1.125rem;
+  line-height: 1.6;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-sm);
+  font-weight: 500;
+}
+
+.sentence-zh {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  padding-left: var(--spacing-sm);
+  border-left: 3px solid var(--primary);
+}
+
+/* 高亮目标单词 */
+.target-word {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 700;
+}
+
+/* =====================================
+   播放按钮
+   ===================================== */
+.play-button {
+  flex-shrink: 0;
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: var(--spacing-xs);
+  border-radius: var(--radius-md);
+  transition: all 0.2s ease;
+  line-height: 1;
+}
+
+.play-button:hover {
+  background: rgba(79, 70, 229, 0.1);
+  transform: scale(1.1);
+}
+
+.play-button:active {
+  transform: scale(0.95);
+}
+
+.play-button.playing {
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+/* =====================================
+   例句底部
+   ===================================== */
+.sentence-footer {
+  margin-top: var(--spacing-md);
+  padding-top: var(--spacing-sm);
+  border-top: 1px solid var(--border-color);
+}
+
+.sentence-footer small {
+  font-size: 0.8125rem;
+  color: var(--text-tertiary);
+  font-style: italic;
+}
+
+/* =====================================
+   提示信息
+   ===================================== */
+.tts-tip {
+  margin-top: var(--spacing-lg);
+  padding: var(--spacing-md);
+  background: rgba(79, 70, 229, 0.05);
+  border-left: 4px solid var(--primary);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+/* =====================================
+   加载和空状态
+   ===================================== */
+.loading-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-3xl);
+  gap: var(--spacing-md);
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(79, 70, 229, 0.1);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.no-sentences {
+  text-align: center;
+  padding: var(--spacing-3xl);
+  color: var(--text-secondary);
+}
+
+.no-sentences p {
+  font-size: 1.125rem;
+  margin-bottom: var(--spacing-sm);
+  color: var(--text-primary);
+}
+
+.no-sentences small {
+  font-size: 0.875rem;
+  color: var(--text-tertiary);
+}
+
+/* =====================================
+   错误提示
+   ===================================== */
+.sentence-error {
+  margin: var(--spacing-md) 0;
+  padding: var(--spacing-md);
+  background: rgba(239, 68, 68, 0.1);
+  border-left: 4px solid #ef4444;
+  border-radius: var(--radius-md);
+  color: #dc2626;
+  font-size: 0.875rem;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =====================================
+   响应式设计
+   ===================================== */
+@media (max-width: 768px) {
+  .example-sentences-section {
+    padding: var(--spacing-lg);
+    margin: var(--spacing-lg) 0;
+  }
+
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+  }
+
+  .section-header h3 {
+    font-size: 1.25rem;
+  }
+
+  .playback-controls {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .sentence-card {
+    padding: var(--spacing-md);
+  }
+
+  .sentence-en {
+    font-size: 1rem;
+    flex-direction: column;
+  }
+
+  .play-button {
+    align-self: flex-start;
+  }
+
+  .sentence-zh {
+    font-size: 0.9375rem;
+  }
+
+  .sentence-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .example-sentences-section {
+    padding: var(--spacing-md);
+    border-radius: var(--radius-lg);
+  }
+
+  .section-header h3 {
+    font-size: 1.125rem;
+  }
+
+  .sentence-card {
+    padding: var(--spacing-sm);
+  }
+
+  .source-badge,
+  .difficulty-badge {
+    font-size: 0.6875rem;
+    padding: 4px 8px;
+  }
+}
+
+/* =====================================
+   暗色模式支持 (可选)
+   ===================================== */
+@media (prefers-color-scheme: dark) {
+  .example-sentences-section {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .sentence-card {
+    background: rgba(255, 255, 255, 0.03);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .sentence-card:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(102, 126, 234, 0.5);
+  }
+
+  .rate-selector {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.9);
+  }
+}
+
+/* =====================================
+   打印样式
+   ===================================== */
+@media print {
+  .play-button,
+  .playback-controls,
+  .tts-tip {
+    display: none;
+  }
+
+  .sentence-card {
+    page-break-inside: avoid;
+    border: 1px solid #000;
+  }
+}
