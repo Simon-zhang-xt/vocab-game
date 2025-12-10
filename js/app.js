@@ -10,6 +10,7 @@ import AuthView from './components/AuthView.js';
 import UserCenterView from './components/UserCenterView.js';
 import authService from './services/AuthService.js';
 import audioManager from './utils/audio.js';
+import dailyGoalService from './services/DailyGoalService.js';
 
 class App {
     constructor() {
@@ -210,7 +211,10 @@ class App {
     /**
      * Show course list
      */
-    showCourseList() {
+    async showCourseList() {
+        // Render daily goal widget
+        await this.renderDailyGoalWidget();
+
         this.currentView = new CourseList(
             this.mainContent,
             (course) => this.startCourse(course)
@@ -219,6 +223,78 @@ class App {
 
         // Update navigation
         this.updateNavigation('home');
+    }
+
+    /**
+     * Render daily goal widget
+     */
+    async renderDailyGoalWidget() {
+        try {
+            const summary = await dailyGoalService.getLearningSummary();
+
+            // Create or update widget
+            let widget = document.querySelector('.daily-goal-widget');
+            if (!widget) {
+                widget = document.createElement('div');
+                widget.className = 'daily-goal-widget';
+                this.mainContent.insertBefore(widget, this.mainContent.firstChild);
+            }
+
+            const progressPercentage = (summary.progress * 100).toFixed(0);
+            const circumference = 2 * Math.PI * 45;
+            const strokeDashoffset = circumference - (summary.progress * circumference);
+
+            widget.innerHTML = `
+                <div class="goal-content">
+                    <div class="goal-header">
+                        <h3>📅 今日学习目标</h3>
+                        ${summary.streakDays > 0 ? `
+                            <div class="streak-badge">
+                                🔥 ${summary.streakDays} 天
+                            </div>
+                        ` : ''}
+                    </div>
+                    <div class="goal-body">
+                        <div class="goal-progress-ring">
+                            <svg viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="8"/>
+                                <circle cx="50" cy="50" r="45" fill="none" stroke="white" stroke-width="8"
+                                    stroke-dasharray="${circumference}"
+                                    stroke-dashoffset="${strokeDashoffset}"
+                                    stroke-linecap="round"
+                                    transform="rotate(-90 50 50)"
+                                    style="transition: stroke-dashoffset 0.6s ease;"/>
+                            </svg>
+                            <div class="progress-text">
+                                <span class="progress-number">${summary.todayProgress.wordsLearned}</span>
+                                <span class="progress-divider">/</span>
+                                <span class="progress-total">${summary.dailyGoal}</span>
+                            </div>
+                        </div>
+                        <div class="goal-info">
+                            ${summary.isGoalCompleted ? `
+                                <p class="goal-message completed">✅ 今日目标已完成！太棒了！</p>
+                                <p class="goal-submessage">Goal completed! Great job!</p>
+                            ` : `
+                                <p class="goal-message">还需学习 ${summary.remainingWords} 个单词</p>
+                                <p class="goal-submessage">${summary.remainingWords} more words to go!</p>
+                            `}
+                            ${summary.todayProgress.coursesCompleted > 0 ? `
+                                <div class="goal-stats">
+                                    <span>📚 完成 ${summary.todayProgress.coursesCompleted} 个课程</span>
+                                    <span>⏱️ 学习 ${Math.floor(summary.todayProgress.timeSpent / 60)} 分钟</span>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Expose to window for celebration
+            window.dailyGoalWidget = widget;
+        } catch (error) {
+            console.error('Failed to render daily goal widget:', error);
+        }
     }
 
     /**
@@ -248,7 +324,10 @@ class App {
      * Show results
      * @param {LearningRecord} record
      */
-    showResults(record) {
+    async showResults(record) {
+        // Update today's progress
+        await this.updateTodayProgress(record);
+
         this.currentView = new ResultsView(
             this.mainContent,
             record,
@@ -258,6 +337,30 @@ class App {
 
         // Update navigation
         this.updateNavigation(null);
+    }
+
+    /**
+     * Update today's progress after completing a course
+     */
+    async updateTodayProgress(record) {
+        try {
+            const wordsLearned = record.totalQuestions || 0;
+            const coursesCompleted = 1;
+            const timeSpent = record.timeSpent || 0;
+            const accuracy = record.accuracy || 0;
+
+            await dailyGoalService.updateTodayProgress(
+                wordsLearned,
+                coursesCompleted,
+                timeSpent,
+                accuracy
+            );
+
+            // Refresh daily goal widget
+            await this.renderDailyGoalWidget();
+        } catch (error) {
+            console.error('Failed to update today progress:', error);
+        }
     }
 
     /**
@@ -412,3 +515,57 @@ window.addEventListener('vocab-storage-error', (event) => {
 });
 
 export default App;
+
+// Goal completion celebration
+window.showGoalCompletionCelebration = function() {
+    const celebration = document.createElement('div');
+    celebration.className = 'celebration-modal';
+    celebration.innerHTML = `
+        <div class="celebration-content">
+            <div class="celebration-icon">🎉</div>
+            <h2>恭喜完成今日目标！</h2>
+            <p>Congratulations on completing today's goal!</p>
+            <div class="celebration-reward">
+                <span class="reward-icon">⭐</span>
+                <span class="reward-text">+10 积分</span>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(celebration);
+
+    // Auto remove after 3 seconds
+    setTimeout(() => {
+        celebration.classList.add('fade-out');
+        setTimeout(() => celebration.remove(), 500);
+    }, 3000);
+};
+
+// Streak milestone celebration
+window.showStreakMilestone = function(days) {
+    const milestoneNames = {
+        7: '坚持者',
+        30: '学习达人',
+        100: '学霸',
+        365: '年度学者'
+    };
+
+    const milestone = document.createElement('div');
+    milestone.className = 'celebration-modal milestone';
+    milestone.innerHTML = `
+        <div class="celebration-content">
+            <div class="celebration-icon">🏆</div>
+            <h2>连续学习 ${days} 天！</h2>
+            <p>获得「${milestoneNames[days] || '学习者'}」成就</p>
+            <div class="celebration-reward">
+                <span class="reward-icon">🎖️</span>
+                <span class="reward-text">特殊成就解锁</span>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(milestone);
+
+    setTimeout(() => {
+        milestone.classList.add('fade-out');
+        setTimeout(() => milestone.remove(), 500);
+    }, 3000);
+};
