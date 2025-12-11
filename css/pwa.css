@@ -1,0 +1,253 @@
+/**
+ * PWA Styles
+ * V3.1: Installation banners, update notifications, offline indicators
+ */
+
+/* ========================================
+   PWA Update Banner
+   ======================================== */
+
+.pwa-update-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: var(--spacing-lg);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+    z-index: 10000;
+}
+
+.pwa-update-banner.show {
+    transform: translateY(0);
+}
+
+.pwa-update-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-lg);
+}
+
+.pwa-update-message {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    flex: 1;
+}
+
+.pwa-update-icon {
+    font-size: 2rem;
+}
+
+.pwa-update-text strong {
+    display: block;
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-xs);
+}
+
+.pwa-update-text p {
+    font-size: var(--font-size-sm);
+    opacity: 0.9;
+    margin: 0;
+}
+
+.pwa-update-actions {
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
+/* ========================================
+   PWA Install Banner
+   ======================================== */
+
+.pwa-install-banner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(135deg, #4F46E5 0%, #667EEA 100%);
+    color: white;
+    padding: var(--spacing-md);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    transform: translateY(-100%);
+    transition: transform 0.3s ease;
+    z-index: 9999;
+}
+
+.pwa-install-banner.show {
+    transform: translateY(0);
+}
+
+.pwa-install-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-lg);
+}
+
+.pwa-install-message {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    flex: 1;
+}
+
+.pwa-install-icon {
+    font-size: 2rem;
+}
+
+.pwa-install-text strong {
+    display: block;
+    font-size: var(--font-size-base);
+    margin-bottom: 2px;
+}
+
+.pwa-install-text p {
+    font-size: var(--font-size-sm);
+    opacity: 0.9;
+    margin: 0;
+}
+
+.pwa-install-actions {
+    display: flex;
+    gap: var(--spacing-sm);
+    align-items: center;
+}
+
+/* ========================================
+   PWA Toast Notifications
+   ======================================== */
+
+.pwa-toast {
+    position: fixed;
+    bottom: var(--spacing-2xl);
+    left: 50%;
+    transform: translateX(-50%) translateY(200%);
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: var(--spacing-md) var(--spacing-xl);
+    border-radius: var(--radius-2xl);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease;
+    z-index: 10001;
+}
+
+.pwa-toast.show {
+    transform: translateX(-50%) translateY(0);
+}
+
+.pwa-toast-icon {
+    font-size: 1.5rem;
+}
+
+.pwa-toast-message {
+    font-size: var(--font-size-base);
+    font-weight: 500;
+}
+
+/* ========================================
+   Offline Indicator
+   ======================================== */
+
+.offline-indicator {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: #ff6b6b;
+    color: white;
+    text-align: center;
+    padding: var(--spacing-sm);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    z-index: 10002;
+    transform: translateY(-100%);
+    transition: transform 0.3s ease;
+}
+
+.offline-indicator.show {
+    transform: translateY(0);
+}
+
+.offline-indicator-icon {
+    margin-right: var(--spacing-xs);
+}
+
+/* ========================================
+   PWA Status Badge
+   ======================================== */
+
+.pwa-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    background: rgba(79, 70, 229, 0.1);
+    border: 1px solid rgba(79, 70, 229, 0.3);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.pwa-status-badge.installed {
+    background: rgba(16, 185, 129, 0.1);
+    border-color: rgba(16, 185, 129, 0.3);
+    color: #10B981;
+}
+
+.pwa-status-badge.offline {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.3);
+    color: #EF4444;
+}
+
+/* ========================================
+   Responsive
+   ======================================== */
+
+@media (max-width: 768px) {
+    .pwa-update-content,
+    .pwa-install-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .pwa-update-message,
+    .pwa-install-message {
+        flex-direction: column;
+    }
+
+    .pwa-update-actions,
+    .pwa-install-actions {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .pwa-update-actions button,
+    .pwa-install-actions button {
+        width: 100%;
+    }
+
+    .pwa-toast {
+        bottom: var(--spacing-lg);
+        left: var(--spacing-md);
+        right: var(--spacing-md);
+        transform: translateX(0) translateY(200%);
+    }
+
+    .pwa-toast.show {
+        transform: translateX(0) translateY(0);
+    }
+}
