@@ -482,3 +482,149 @@
         gap: var(--spacing-md);
     }
 }
+
+/* ========================================
+   Tabbed Navigation (V2.2)
+   ======================================== */
+
+.user-center-tabs {
+    margin-bottom: var(--spacing-2xl);
+}
+
+.tab-nav {
+    display: flex;
+    gap: var(--spacing-sm);
+    border-bottom: 2px solid var(--border-color);
+    margin-bottom: var(--spacing-xl);
+    overflow-x: auto;
+}
+
+.tab-button {
+    padding: var(--spacing-md) var(--spacing-xl);
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    margin-bottom: -2px;
+}
+
+.tab-button:hover {
+    color: var(--primary-color);
+    background: var(--bg-secondary);
+}
+
+.tab-button.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+}
+
+.tab-content {
+    position: relative;
+}
+
+.tab-pane {
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+.tab-pane.active {
+    display: block;
+}
+
+/* ========================================
+   Data Visualization Charts (V2.2)
+   ======================================== */
+
+.data-visualization-section {
+    padding: var(--spacing-lg) 0;
+}
+
+.chart-card {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-xl);
+    margin-bottom: var(--spacing-xl);
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s ease;
+}
+
+.chart-card:hover {
+    box-shadow: var(--shadow-lg);
+}
+
+.chart-header {
+    margin-bottom: var(--spacing-lg);
+}
+
+.chart-title {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-xs);
+}
+
+.chart-desc {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+}
+
+.chart-container {
+    position: relative;
+    height: 350px;
+    padding: var(--spacing-md);
+}
+
+.chart-container-small {
+    height: 300px;
+}
+
+.charts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: var(--spacing-xl);
+}
+
+/* Responsive Charts */
+@media (max-width: 968px) {
+    .charts-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .chart-container {
+        height: 300px;
+    }
+
+    .chart-container-small {
+        height: 250px;
+    }
+}
+
+@media (max-width: 768px) {
+    .tab-nav {
+        gap: 0;
+    }
+
+    .tab-button {
+        padding: var(--spacing-sm) var(--spacing-md);
+        font-size: var(--font-size-sm);
+    }
+
+    .chart-card {
+        padding: var(--spacing-md);
+    }
+
+    .chart-container {
+        height: 250px;
+        padding: var(--spacing-xs);
+    }
+
+    .chart-container-small {
+        height: 220px;
+    }
+}

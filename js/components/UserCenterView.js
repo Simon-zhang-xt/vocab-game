@@ -5,6 +5,7 @@
 
 import authService from '../services/AuthService.js';
 import userDataService from '../services/UserDataService.js';
+import chartService from '../services/ChartService.js';
 
 class UserCenterView {
     constructor(container) {
@@ -72,11 +73,37 @@ class UserCenterView {
                 <!-- User Profile Card -->
                 ${this.renderProfileCard()}
 
-                <!-- Statistics Overview -->
-                ${this.renderStatsOverview()}
+                <!-- Tabbed Content -->
+                <div class="user-center-tabs">
+                    <div class="tab-nav">
+                        <button class="tab-button active" data-tab="overview">
+                            📊 统计概览
+                        </button>
+                        <button class="tab-button" data-tab="charts">
+                            📈 数据分析
+                        </button>
+                        <button class="tab-button" data-tab="progress">
+                            📚 学习进度
+                        </button>
+                    </div>
 
-                <!-- Course Progress -->
-                ${this.renderCourseProgress()}
+                    <div class="tab-content">
+                        <!-- Tab 1: Statistics Overview -->
+                        <div class="tab-pane active" data-pane="overview">
+                            ${this.renderStatsOverview()}
+                        </div>
+
+                        <!-- Tab 2: Data Visualization -->
+                        <div class="tab-pane" data-pane="charts">
+                            ${this.renderDataVisualization()}
+                        </div>
+
+                        <!-- Tab 3: Course Progress -->
+                        <div class="tab-pane" data-pane="progress">
+                            ${this.renderCourseProgress()}
+                        </div>
+                    </div>
+                </div>
 
                 <!-- Quick Actions -->
                 ${this.renderQuickActions()}
@@ -85,6 +112,7 @@ class UserCenterView {
 
         this.container.innerHTML = html;
         this.attachEventListeners();
+        this.attachTabListeners();
     }
 
     /**
@@ -238,6 +266,65 @@ class UserCenterView {
     }
 
     /**
+     * Render data visualization charts
+     * V2.2 Feature: Interactive charts for learning analytics
+     */
+    renderDataVisualization() {
+        return `
+            <div class="data-visualization-section">
+                <h3 class="section-title">📈 数据分析 Data Analytics</h3>
+
+                <!-- Learning Curve Chart -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h4 class="chart-title">📊 学习曲线 Learning Curve</h4>
+                        <p class="chart-desc">Past 30 days cumulative words learned</p>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="learning-curve-chart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Charts Grid -->
+                <div class="charts-grid">
+                    <!-- Accuracy Trend Chart -->
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h4 class="chart-title">🎯 正确率趋势 Accuracy Trend</h4>
+                            <p class="chart-desc">Daily quiz accuracy</p>
+                        </div>
+                        <div class="chart-container chart-container-small">
+                            <canvas id="accuracy-chart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Mastery Distribution Chart -->
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h4 class="chart-title">🏆 掌握度分布 Mastery Distribution</h4>
+                            <p class="chart-desc">Word proficiency levels</p>
+                        </div>
+                        <div class="chart-container chart-container-small">
+                            <canvas id="mastery-distribution-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Study Time Chart -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h4 class="chart-title">⏱️ 学习时长统计 Study Time</h4>
+                        <p class="chart-desc">Past 7 days daily study minutes</p>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="study-time-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    /**
      * Render quick actions
      */
     renderQuickActions() {
@@ -353,6 +440,67 @@ class UserCenterView {
         const editProfileBtn = this.container.querySelector('#edit-profile-btn');
         if (editProfileBtn) {
             editProfileBtn.addEventListener('click', () => this.editProfile());
+        }
+    }
+
+    /**
+     * Attach tab navigation listeners
+     * V2.2 Feature: Tab switching for different views
+     */
+    attachTabListeners() {
+        const tabButtons = this.container.querySelectorAll('.tab-button');
+        const tabPanes = this.container.querySelectorAll('.tab-pane');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', async () => {
+                const targetTab = button.dataset.tab;
+
+                // Update active states
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                tabPanes.forEach(pane => pane.classList.remove('active'));
+
+                button.classList.add('active');
+                const targetPane = this.container.querySelector(`[data-pane="${targetTab}"]`);
+                if (targetPane) {
+                    targetPane.classList.add('active');
+                }
+
+                // Load charts when switching to charts tab
+                if (targetTab === 'charts') {
+                    await this.loadCharts();
+                }
+
+                // Load progress when switching to progress tab
+                if (targetTab === 'progress') {
+                    const progressList = this.container.querySelector('#progress-list');
+                    if (progressList && progressList.querySelector('.loading-placeholder')) {
+                        await this.loadProgress();
+                    }
+                }
+            });
+        });
+    }
+
+    /**
+     * Load all charts
+     * V2.2 Feature: Initialize Chart.js visualizations
+     */
+    async loadCharts() {
+        try {
+            // Wait for canvases to be visible
+            await new Promise(resolve => setTimeout(resolve, 100));
+
+            // Create all charts
+            await Promise.all([
+                chartService.createLearningCurveChart('learning-curve-chart'),
+                chartService.createAccuracyChart('accuracy-chart'),
+                chartService.createMasteryDistributionChart('mastery-distribution-chart'),
+                chartService.createStudyTimeChart('study-time-chart')
+            ]);
+
+            console.log('All charts loaded successfully');
+        } catch (error) {
+            console.error('Failed to load charts:', error);
         }
     }
 

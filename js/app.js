@@ -11,6 +11,7 @@ import UserCenterView from './components/UserCenterView.js';
 import authService from './services/AuthService.js';
 import audioManager from './utils/audio.js';
 import dailyGoalService from './services/DailyGoalService.js';
+import { goalSettingModal } from './components/GoalSettingModal.js';
 
 class App {
     constructor() {
@@ -248,11 +249,16 @@ class App {
                 <div class="goal-content">
                     <div class="goal-header">
                         <h3>📅 今日学习目标</h3>
-                        ${summary.streakDays > 0 ? `
-                            <div class="streak-badge">
-                                🔥 ${summary.streakDays} 天
-                            </div>
-                        ` : ''}
+                        <div class="goal-header-actions">
+                            ${summary.streakDays > 0 ? `
+                                <div class="streak-badge">
+                                    🔥 ${summary.streakDays} 天
+                                </div>
+                            ` : ''}
+                            <button class="goal-settings-btn" onclick="window.showGoalSettingModal()">
+                                ⚙️
+                            </button>
+                        </div>
                     </div>
                     <div class="goal-body">
                         <div class="goal-progress-ring">
@@ -568,4 +574,9 @@ window.showStreakMilestone = function(days) {
         milestone.classList.add('fade-out');
         setTimeout(() => milestone.remove(), 500);
     }, 3000);
+};
+
+// Show goal setting modal (V2.2)
+window.showGoalSettingModal = function() {
+    goalSettingModal.show();
 };
