@@ -12,6 +12,8 @@ import authService from './services/AuthService.js';
 import audioManager from './utils/audio.js';
 import dailyGoalService from './services/DailyGoalService.js';
 import { goalSettingModal } from './components/GoalSettingModal.js';
+import ImageMemoryView from './components/ImageMemoryView.js';
+import ImageMemoryGame from './components/ImageMemoryGame.js';
 
 class App {
     constructor() {
@@ -381,6 +383,36 @@ class App {
     }
 
     /**
+     * Show image memory learning (V3.2)
+     */
+    async showImageMemory() {
+        this.currentView = new ImageMemoryView();
+        const html = await this.currentView.render();
+        this.mainContent.innerHTML = html;
+
+        // Expose to window for onclick handlers
+        window.imageMemoryView = this.currentView;
+
+        // Update navigation
+        this.updateNavigation('image-memory');
+    }
+
+    /**
+     * Show image memory game (V3.2)
+     */
+    async showImageMemoryGame() {
+        this.currentView = new ImageMemoryGame();
+        const html = this.currentView.render();
+        this.mainContent.innerHTML = html;
+
+        // Expose to window for onclick handlers
+        window.imageMemoryGame = this.currentView;
+
+        // Update navigation
+        this.updateNavigation('image-game');
+    }
+
+    /**
      * Update navigation active state
      * @param {string|null} activeLink
      */
@@ -451,6 +483,25 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    // Setup hash-based routing for V3.2 features
+    window.addEventListener('hashchange', () => {
+        const hash = window.location.hash;
+
+        if (hash === '#image-memory') {
+            app.showImageMemory();
+        } else if (hash === '#image-game') {
+            app.showImageMemoryGame();
+        }
+    });
+
+    // Check initial hash on load
+    const initialHash = window.location.hash;
+    if (initialHash === '#image-memory') {
+        app.showImageMemory();
+    } else if (initialHash === '#image-game') {
+        app.showImageMemoryGame();
+    }
 
     // Add settings page method to app
     app.showSettings = function() {

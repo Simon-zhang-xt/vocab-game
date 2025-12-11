@@ -1,0 +1,845 @@
+/**
+ * Image Memory System Styles
+ * V3.2: Visual vocabulary learning with images
+ */
+
+/* ========================================
+   Image Memory Container
+   ======================================== */
+
+.image-memory-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--spacing-xl);
+}
+
+.image-memory-header {
+    text-align: center;
+    margin-bottom: var(--spacing-2xl);
+}
+
+.image-memory-header h1 {
+    font-size: var(--font-size-3xl);
+    margin-bottom: var(--spacing-sm);
+    color: var(--text-primary);
+}
+
+.image-memory-header .subtitle {
+    font-size: var(--font-size-lg);
+    color: var(--text-secondary);
+}
+
+/* ========================================
+   Mode Selection
+   ======================================== */
+
+.mode-selection {
+    margin-bottom: var(--spacing-2xl);
+}
+
+.mode-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-lg);
+}
+
+.mode-card {
+    background: white;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.mode-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-color);
+}
+
+.mode-icon {
+    font-size: 3rem;
+    margin-bottom: var(--spacing-md);
+}
+
+.mode-card h3 {
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--spacing-sm);
+    color: var(--text-primary);
+}
+
+.mode-card p {
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-lg);
+}
+
+.mode-card button {
+    width: 100%;
+}
+
+/* ========================================
+   Study Area
+   ======================================== */
+
+.study-area {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    box-shadow: var(--shadow-md);
+}
+
+.study-progress {
+    margin-bottom: var(--spacing-xl);
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-2xl);
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+    transition: width 0.5s ease;
+}
+
+.progress-text {
+    text-align: center;
+    margin-top: var(--spacing-sm);
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+}
+
+/* Image Card */
+.image-card {
+    margin-bottom: var(--spacing-xl);
+}
+
+.image-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    aspect-ratio: 4/3;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--bg-secondary);
+}
+
+.image-wrapper.loading .word-image {
+    opacity: 0;
+}
+
+.image-wrapper.loading .image-loading {
+    display: flex;
+}
+
+.word-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.3s ease;
+}
+
+.image-loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-secondary);
+}
+
+.image-attribution {
+    text-align: center;
+    margin-top: var(--spacing-sm);
+    font-size: var(--font-size-xs);
+    color: var(--text-secondary);
+}
+
+.image-attribution a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.image-attribution a:hover {
+    text-decoration: underline;
+}
+
+/* Word Info Card */
+.word-info-card {
+    background: var(--bg-secondary);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    margin-bottom: var(--spacing-xl);
+}
+
+.word-main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.word-text {
+    font-size: var(--font-size-3xl);
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.btn-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    padding: var(--spacing-sm);
+    border-radius: var(--radius-md);
+    transition: background 0.2s ease;
+}
+
+.btn-icon:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.word-details {
+    text-align: center;
+}
+
+.word-phonetic {
+    font-size: var(--font-size-lg);
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-sm);
+}
+
+.word-translation {
+    font-size: var(--font-size-xl);
+    color: var(--primary-color);
+    font-weight: 600;
+    margin-bottom: var(--spacing-sm);
+}
+
+.word-definition {
+    font-size: var(--font-size-base);
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+.word-example {
+    margin-top: var(--spacing-lg);
+    padding: var(--spacing-md);
+    background: white;
+    border-radius: var(--radius-md);
+}
+
+.example-label {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-xs);
+}
+
+.example-text {
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+/* Study Actions */
+.study-actions {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-xl);
+}
+
+.study-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* ========================================
+   Image Memory Statistics
+   ======================================== */
+
+.image-memory-stats {
+    margin-top: var(--spacing-2xl);
+    padding: var(--spacing-xl);
+    background: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+}
+
+.image-memory-stats h3 {
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-lg);
+}
+
+.stat-card {
+    text-align: center;
+    padding: var(--spacing-lg);
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+}
+
+.stat-value {
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+    color: var(--primary-color);
+    display: block;
+    margin-bottom: var(--spacing-xs);
+}
+
+.stat-label {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+}
+
+/* ========================================
+   Image Memory Game Styles
+   ======================================== */
+
+.image-game-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--spacing-xl);
+}
+
+.image-game-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-2xl);
+}
+
+.btn-back {
+    background: none;
+    border: none;
+    font-size: var(--font-size-lg);
+    color: var(--primary-color);
+    cursor: pointer;
+    padding: var(--spacing-sm);
+}
+
+/* Game Menu */
+.game-menu {
+    margin-bottom: var(--spacing-2xl);
+}
+
+.game-modes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-lg);
+}
+
+.game-mode-card {
+    background: white;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.game-mode-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-color);
+}
+
+.game-mode-icon {
+    font-size: 3rem;
+    margin-bottom: var(--spacing-md);
+}
+
+.game-mode-meta {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-md);
+    margin: var(--spacing-md) 0;
+}
+
+.difficulty {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+}
+
+.difficulty.easy {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.difficulty.medium {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.difficulty.hard {
+    background: #fecaca;
+    color: #991b1b;
+}
+
+.difficulty.expert {
+    background: #e0e7ff;
+    color: #3730a3;
+}
+
+.duration {
+    font-size: var(--font-size-xs);
+    color: var(--text-secondary);
+}
+
+/* Game Area */
+.game-area {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    box-shadow: var(--shadow-md);
+}
+
+/* Game HUD */
+.game-hud {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-lg);
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-xl);
+}
+
+.hud-left,
+.hud-center,
+.hud-right {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.hud-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hud-label {
+    font-size: var(--font-size-xs);
+    color: var(--text-secondary);
+    margin-bottom: 2px;
+}
+
+.hud-value {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.hud-value.streak {
+    color: var(--accent-color);
+}
+
+.round-indicator {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.lives-container {
+    font-size: 1.2rem;
+}
+
+.timer {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+/* Game Content */
+.game-content {
+    min-height: 400px;
+    padding: var(--spacing-xl);
+}
+
+/* Image to Word Game */
+.image-to-word-game,
+.word-to-image-game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.question-image {
+    width: 100%;
+    max-width: 500px;
+    aspect-ratio: 4/3;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin-bottom: var(--spacing-lg);
+    box-shadow: var(--shadow-md);
+}
+
+.question-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.question-prompt {
+    font-size: var(--font-size-xl);
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-lg);
+}
+
+.word-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
+    width: 100%;
+    max-width: 600px;
+}
+
+.word-option-btn {
+    background: white;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-lg);
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.word-option-btn:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.word-option-btn.correct {
+    background: #d1fae5;
+    border-color: #10b981;
+}
+
+.word-option-btn.wrong {
+    background: #fecaca;
+    border-color: #ef4444;
+}
+
+.option-word {
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-xs);
+}
+
+.option-translation {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+}
+
+/* Word to Image Game */
+.question-word-card {
+    background: var(--bg-secondary);
+    padding: var(--spacing-xl);
+    border-radius: var(--radius-lg);
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+}
+
+.question-word {
+    font-size: var(--font-size-3xl);
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-sm);
+}
+
+.question-translation {
+    font-size: var(--font-size-lg);
+    color: var(--text-secondary);
+}
+
+.image-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
+    width: 100%;
+    max-width: 600px;
+}
+
+.image-option-btn {
+    background: white;
+    border: 3px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 0;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.2s ease;
+    aspect-ratio: 1;
+}
+
+.image-option-btn:hover {
+    border-color: var(--primary-color);
+    transform: scale(1.05);
+    box-shadow: var(--shadow-lg);
+}
+
+.image-option-btn.correct {
+    border-color: #10b981;
+    border-width: 4px;
+}
+
+.image-option-btn.wrong {
+    border-color: #ef4444;
+    border-width: 4px;
+}
+
+.image-option-btn img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Memory Match Game */
+.memory-match-game {
+    display: flex;
+    justify-content: center;
+}
+
+.memory-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 120px);
+    grid-template-rows: repeat(3, 120px);
+    gap: var(--spacing-md);
+}
+
+.memory-card {
+    perspective: 1000px;
+    cursor: pointer;
+}
+
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+}
+
+.memory-card.flipped .card-inner,
+.memory-card.matched .card-inner {
+    transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+}
+
+.card-front {
+    background: var(--primary-color);
+    color: white;
+}
+
+.card-back {
+    background: white;
+    border: 2px solid var(--border-color);
+    transform: rotateY(180deg);
+}
+
+.memory-card.matched .card-back {
+    background: #d1fae5;
+    border-color: #10b981;
+}
+
+.card-word {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--text-primary);
+    padding: var(--spacing-md);
+}
+
+.card-back img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: var(--radius-md);
+}
+
+/* Game Controls */
+.game-controls {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-xl);
+}
+
+/* Game Results */
+.game-results {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-2xl);
+    box-shadow: var(--shadow-lg);
+    text-align: center;
+}
+
+.results-header {
+    margin-bottom: var(--spacing-2xl);
+}
+
+.results-header h2 {
+    font-size: var(--font-size-3xl);
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-lg);
+}
+
+.final-score {
+    font-size: 4rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.results-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-2xl);
+}
+
+.result-stat {
+    padding: var(--spacing-lg);
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+}
+
+.result-stat .stat-label {
+    display: block;
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-xs);
+}
+
+.result-stat .stat-value {
+    display: block;
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.results-actions {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-md);
+}
+
+/* Feedback Toast */
+.game-feedback {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: var(--spacing-xl) var(--spacing-2xl);
+    border-radius: var(--radius-2xl);
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+    z-index: 10000;
+    transition: transform 0.3s ease;
+}
+
+.game-feedback.show {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.game-feedback.success {
+    background: linear-gradient(135deg, #10b981, #059669);
+}
+
+.game-feedback.error {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+}
+
+/* ========================================
+   Responsive Design
+   ======================================== */
+
+@media (max-width: 768px) {
+    .image-memory-container,
+    .image-game-container {
+        padding: var(--spacing-md);
+    }
+
+    .mode-grid,
+    .game-modes-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .study-area,
+    .game-area {
+        padding: var(--spacing-md);
+    }
+
+    .word-text {
+        font-size: var(--font-size-2xl);
+    }
+
+    .game-hud {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+
+    .word-options,
+    .image-options {
+        grid-template-columns: 1fr;
+    }
+
+    .memory-grid {
+        grid-template-columns: repeat(3, 100px);
+        grid-template-rows: repeat(4, 100px);
+        gap: var(--spacing-sm);
+    }
+
+    .study-actions,
+    .results-actions {
+        flex-direction: column;
+    }
+
+    .study-actions button,
+    .results-actions button {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .memory-grid {
+        grid-template-columns: repeat(3, 80px);
+        grid-template-rows: repeat(4, 80px);
+    }
+
+    .final-score {
+        font-size: 3rem;
+    }
+}
