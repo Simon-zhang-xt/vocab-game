@@ -14,6 +14,8 @@ import dailyGoalService from './services/DailyGoalService.js';
 import { goalSettingModal } from './components/GoalSettingModal.js';
 import ImageMemoryView from './components/ImageMemoryView.js';
 import ImageMemoryGame from './components/ImageMemoryGame.js';
+import RootExplorerView from './components/RootExplorerView.js';
+import RootPuzzleGame from './components/RootPuzzleGame.js';
 
 class App {
     constructor() {
@@ -393,6 +395,9 @@ class App {
         // Expose to window for onclick handlers
         window.imageMemoryView = this.currentView;
 
+        // Setup event listeners
+        this.currentView.setupEventListeners();
+
         // Update navigation
         this.updateNavigation('image-memory');
     }
@@ -410,6 +415,39 @@ class App {
 
         // Update navigation
         this.updateNavigation('image-game');
+    }
+
+    /**
+     * Show etymology/root explorer (V3.3)
+     */
+    async showEtymology() {
+        this.currentView = new RootExplorerView();
+        const html = await this.currentView.render();
+        this.mainContent.innerHTML = html;
+
+        // Expose to window for onclick handlers
+        window.rootExplorerView = this.currentView;
+
+        // Setup event listeners
+        this.currentView.setupEventListeners();
+
+        // Update navigation
+        this.updateNavigation('etymology');
+    }
+
+    /**
+     * Show root puzzle game (V3.3)
+     */
+    async showRootGame() {
+        this.currentView = new RootPuzzleGame();
+        const html = this.currentView.render();
+        this.mainContent.innerHTML = html;
+
+        // Expose to window for onclick handlers
+        window.rootPuzzleGame = this.currentView;
+
+        // Update navigation
+        this.updateNavigation('root-game');
     }
 
     /**
@@ -484,7 +522,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Setup hash-based routing for V3.2 features
+    // Setup hash-based routing for V3.2-V3.3 features
     window.addEventListener('hashchange', () => {
         const hash = window.location.hash;
 
@@ -492,6 +530,10 @@ document.addEventListener('DOMContentLoaded', () => {
             app.showImageMemory();
         } else if (hash === '#image-game') {
             app.showImageMemoryGame();
+        } else if (hash === '#etymology') {
+            app.showEtymology();
+        } else if (hash === '#root-game') {
+            app.showRootGame();
         }
     });
 
@@ -501,6 +543,10 @@ document.addEventListener('DOMContentLoaded', () => {
         app.showImageMemory();
     } else if (initialHash === '#image-game') {
         app.showImageMemoryGame();
+    } else if (initialHash === '#etymology') {
+        app.showEtymology();
+    } else if (initialHash === '#root-game') {
+        app.showRootGame();
     }
 
     // Add settings page method to app
