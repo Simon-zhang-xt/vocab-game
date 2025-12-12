@@ -16,6 +16,7 @@ import ImageMemoryView from './components/ImageMemoryView.js';
 import ImageMemoryGame from './components/ImageMemoryGame.js';
 import RootExplorerView from './components/RootExplorerView.js';
 import RootPuzzleGame from './components/RootPuzzleGame.js';
+import PronunciationView from './components/PronunciationView.js';
 
 class App {
     constructor() {
@@ -451,6 +452,24 @@ class App {
     }
 
     /**
+     * Show pronunciation training (V3.4)
+     */
+    async showPronunciation() {
+        this.currentView = new PronunciationView();
+        const html = await this.currentView.render();
+        this.mainContent.innerHTML = html;
+
+        // Expose to window for onclick handlers
+        window.pronunciationView = this.currentView;
+
+        // Setup event listeners
+        this.currentView.setupEventListeners();
+
+        // Update navigation
+        this.updateNavigation('pronunciation');
+    }
+
+    /**
      * Update navigation active state
      * @param {string|null} activeLink
      */
@@ -522,7 +541,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Setup hash-based routing for V3.2-V3.3 features
+    // Setup hash-based routing for V3.2-V3.4 features
     window.addEventListener('hashchange', () => {
         const hash = window.location.hash;
 
@@ -534,6 +553,8 @@ document.addEventListener('DOMContentLoaded', () => {
             app.showEtymology();
         } else if (hash === '#root-game') {
             app.showRootGame();
+        } else if (hash === '#pronunciation') {
+            app.showPronunciation();
         }
     });
 
@@ -547,6 +568,8 @@ document.addEventListener('DOMContentLoaded', () => {
         app.showEtymology();
     } else if (initialHash === '#root-game') {
         app.showRootGame();
+    } else if (initialHash === '#pronunciation') {
+        app.showPronunciation();
     }
 
     // Add settings page method to app
