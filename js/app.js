@@ -17,6 +17,7 @@ import ImageMemoryGame from './components/ImageMemoryGame.js';
 import RootExplorerView from './components/RootExplorerView.js';
 import RootPuzzleGame from './components/RootPuzzleGame.js';
 import PronunciationView from './components/PronunciationView.js';
+import SocialView from './components/SocialView.js';
 
 class App {
     constructor() {
@@ -470,6 +471,24 @@ class App {
     }
 
     /**
+     * Show social learning (V3.5)
+     */
+    async showSocial() {
+        this.currentView = new SocialView();
+        const html = await this.currentView.render();
+        this.mainContent.innerHTML = html;
+
+        // Expose to window for onclick handlers
+        window.socialView = this.currentView;
+
+        // Setup event listeners
+        this.currentView.setupEventListeners();
+
+        // Update navigation
+        this.updateNavigation('social');
+    }
+
+    /**
      * Update navigation active state
      * @param {string|null} activeLink
      */
@@ -541,7 +560,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Setup hash-based routing for V3.2-V3.4 features
+    // Setup hash-based routing for V3.2-V3.5 features
     window.addEventListener('hashchange', () => {
         const hash = window.location.hash;
 
@@ -555,6 +574,8 @@ document.addEventListener('DOMContentLoaded', () => {
             app.showRootGame();
         } else if (hash === '#pronunciation') {
             app.showPronunciation();
+        } else if (hash === '#social') {
+            app.showSocial();
         }
     });
 
@@ -570,6 +591,8 @@ document.addEventListener('DOMContentLoaded', () => {
         app.showRootGame();
     } else if (initialHash === '#pronunciation') {
         app.showPronunciation();
+    } else if (initialHash === '#social') {
+        app.showSocial();
     }
 
     // Add settings page method to app
