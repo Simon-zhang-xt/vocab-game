@@ -18,6 +18,7 @@ import RootExplorerView from './components/RootExplorerView.js';
 import RootPuzzleGame from './components/RootPuzzleGame.js';
 import PronunciationView from './components/PronunciationView.js';
 import SocialView from './components/SocialView.js';
+import AIAdaptiveView from './components/AIAdaptiveView.js';
 
 class App {
     constructor() {
@@ -489,6 +490,24 @@ class App {
     }
 
     /**
+     * Show AI adaptive learning (V4.0)
+     */
+    async showAIAdaptive() {
+        this.currentView = new AIAdaptiveView();
+        const html = await this.currentView.render();
+        this.mainContent.innerHTML = html;
+
+        // Expose to window for onclick handlers
+        window.aiAdaptiveView = this.currentView;
+
+        // Setup event listeners
+        this.currentView.setupEventListeners();
+
+        // Update navigation
+        this.updateNavigation('ai-adaptive');
+    }
+
+    /**
      * Update navigation active state
      * @param {string|null} activeLink
      */
@@ -560,7 +579,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Setup hash-based routing for V3.2-V3.5 features
+    // Setup hash-based routing for V3.2-V4.0 features
     window.addEventListener('hashchange', () => {
         const hash = window.location.hash;
 
@@ -576,6 +595,8 @@ document.addEventListener('DOMContentLoaded', () => {
             app.showPronunciation();
         } else if (hash === '#social') {
             app.showSocial();
+        } else if (hash === '#ai-adaptive') {
+            app.showAIAdaptive();
         }
     });
 
@@ -593,6 +614,8 @@ document.addEventListener('DOMContentLoaded', () => {
         app.showPronunciation();
     } else if (initialHash === '#social') {
         app.showSocial();
+    } else if (initialHash === '#ai-adaptive') {
+        app.showAIAdaptive();
     }
 
     // Add settings page method to app
